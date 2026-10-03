@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistema Integral de Calendario Deportivo Oficial FIA 2026 - Demo Web CRUD Sprint 0 (F1, F2, F3 y F1 Academy) con Arquitectura en Capas, SOLID y MVC.">
+  <meta name="author" content="Equipo Azul - UNS APS 2026">
+  <title>FIA Sports Calendar & Championship 2026 | Demo Sprint 0 (Equipo Azul)</title>
+  
+  <!-- Estilos del Sistema de Diseño FIA -->
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏎️</text></svg>">
+</head>
+<body>
+  <!-- Contenedor del Header y Barra de Navegación -->
+  <div id="navbar-container"></div>
+
+  <!-- Contenedor Dinámico Principal (Vistas MVC) -->
+  <main id="main-content" role="main"></main>
+
+  <!-- Footer Institucional FIA -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>Fédération Internationale de l'Automobile (FIA)</strong> &bull; Temporada 2026 &bull; Demo Sprint 0 (Equipo Azul - APS UNS)
+      </div>
+    </div>
+  </footer>
+
+  <!-- Contenedores Globales para Modales y Notificaciones Toast -->
+  <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
+    <div id="modal-container" class="modal-container"></div>
+  </div>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Punto de Entrada de la Aplicación en JavaScript ES Modules -->
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

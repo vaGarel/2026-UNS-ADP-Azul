@@ -1,0 +1,75 @@
+/* Design System Variables - FIA Formula Championship Theme */
+:root {
+  /* FIA & F1 Palette */
+  --fia-red: #E10600;
+  --fia-red-glow: rgba(225, 6, 0, 0.35);
+  --fia-red-dark: #A50000;
+  --fia-gold: #FFD700;
+  --fia-gold-glow: rgba(255, 215, 0, 0.25);
+  --fia-gold-dark: #B8860B;
+  
+  /* Dark Mode Bases & Carbon Fibers */
+  --bg-primary: #0B0D13;
+  --bg-secondary: #131722;
+  --bg-tertiary: #1C2234;
+  --bg-card: rgba(23, 28, 43, 0.75);
+  --bg-card-hover: rgba(30, 37, 56, 0.9);
+  --bg-glass: rgba(19, 23, 34, 0.7);
+  
+  /* Borders & Glassmorphism */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(225, 6, 0, 0.4);
+  --border-gold: rgba(255, 215, 0, 0.3);
+  --glass-blur: blur(16px);
+  
+  /* Typography Colors */
+  --text-main: #F4F5F8;
+  --text-muted: #8E98B0;
+  --text-dim: #5D667E;
+  --text-inverse: #0B0D13;
+
+  /* Categories Accent Colors */
+  --cat-f1: #E10600;
+  --cat-f2: #0090D0;
+  --cat-f3: #E84C0E;
+  --cat-f1a: #D81B60;
+  --cat-tire: #F5A623;
+
+  /* Status Colors */
+  --status-success: #00D26A;
+  --status-warning: #FFB020;
+  --status-danger: #F83B46;
+  --status-info: #00B4D8;
+
+  /* Typography */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow-red: 0 0 25px rgba(225, 6, 0, 0.4);
+  --shadow-glow-gold: 0 0 25px rgba(255, 215, 0, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}

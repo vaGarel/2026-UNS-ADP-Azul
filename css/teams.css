@@ -1,0 +1,248 @@
+/* Teams & Drivers Grid Styles */
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.team-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  transition: var(--transition-normal);
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.team-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.team-color-box {
+  width: 16px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+}
+
+.team-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.team-country {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.team-points-badge {
+  text-align: right;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+}
+
+.points-val {
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--fia-gold);
+}
+
+.points-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.team-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xs);
+  font-size: 0.82rem;
+  background: rgba(11, 13, 19, 0.4);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+}
+
+.spec-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.spec-val {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.team-cars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subhead-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.cars-chips-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.car-chip {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+}
+
+/* Drivers Roster Section */
+.drivers-roster-section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+}
+
+.roster-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.section-heading {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.drivers-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.driver-profile-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  transition: var(--transition-fast);
+}
+
+.driver-profile-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.driver-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.driver-number-large {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.driver-role-indicator {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+.role-titular { background: rgba(0, 210, 106, 0.15); color: #4ADE80; border: 1px solid rgba(0, 210, 106, 0.3); }
+.role-suplente { background: rgba(255, 176, 32, 0.15); color: #FBBF24; border: 1px solid rgba(255, 176, 32, 0.3); }
+
+.driver-main-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.driver-full-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.driver-team-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+.driver-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  background: rgba(11, 13, 19, 0.6);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  margin-top: var(--spacing-sm);
+  text-align: center;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-num {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.stat-tag {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.driver-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--spacing-sm);
+}
