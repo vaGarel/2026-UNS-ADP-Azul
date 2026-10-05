@@ -13,5 +13,5 @@ export const STORAGE_KEYS = {
   RACE_RESULTS: 'fia_race_results',
   USERS: 'fia_users',
   CURRENT_USER: 'fia_current_user',
-  SEEDED: 'fia_data_seeded_v2'
+  SEEDED: 'fia_data_seeded_v3'
 };
