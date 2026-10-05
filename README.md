@@ -38,7 +38,7 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
    - Alta, modificación y eliminación de Grandes Premios, carreras sprint y pruebas oficiales de neumáticos (Pirelli).
    - Filtros dinámicos por categoría (F1, F2, F3, F1 Academy) y por tipo de evento.
    - Búsqueda en tiempo real por circuito, país o ciudad.
-   - Alternador de vistas (Vista en Tarjetas / Cuadrícula y Vista en Tabla cronológica).
+   - Visualización cronológica en formato lista/tabla con detalles completos de cada evento y estado.
    - Ficha técnica completa de cada autódromo con vueltas, distancia y especificaciones.
    - **Exportación y descarga del calendario:** Formato estándar iCalendar (`.ics`) para Google Calendar / Outlook y formato `.json`.
 

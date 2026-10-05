@@ -6,7 +6,6 @@ import { PIRELLI_COMPOUNDS } from '../models/TireTestEvent.js';
 export class CalendarView extends BaseView {
   constructor(containerId = 'main-content') {
     super(containerId);
-    this.currentViewMode = 'grid'; // 'grid' | 'table'
     this.activeFilters = {
       category: 'ALL',
       eventType: 'ALL',
@@ -77,11 +76,6 @@ export class CalendarView extends BaseView {
                 <option value="${EVENT_TYPES.SPRINT_WEEKEND}" ${this.activeFilters.eventType === EVENT_TYPES.SPRINT_WEEKEND ? 'selected' : ''}>Fines de Semana Sprint</option>
               </select>
             </div>
-
-            <div class="view-toggle-group">
-              <button class="btn-icon-toggle ${this.currentViewMode === 'grid' ? 'active' : ''}" id="btn-view-grid" title="Vista en Cuadrícula">🔲</button>
-              <button class="btn-icon-toggle ${this.currentViewMode === 'table' ? 'active' : ''}" id="btn-view-table" title="Vista en Tabla Cronológica">☰</button>
-            </div>
           </div>
         </div>
 
@@ -93,90 +87,11 @@ export class CalendarView extends BaseView {
             <p>Intenta ajustar la categoría o el término de búsqueda.</p>
             ${canEdit ? `<button class="btn btn-secondary mt-3" id="btn-create-first-event">Crear Evento Ahora</button>` : ''}
           </div>
-        ` : (this.currentViewMode === 'grid' ? this._renderEventsGrid(events, canEdit) : this._renderEventsTable(events, canEdit))}
+        ` : this._renderEventsTable(events, canEdit)}
       </section>
     `;
 
     this._bindEvents(events, canEdit);
-  }
-
-  _renderEventsGrid(events, canEdit) {
-    return `
-      <div class="events-grid">
-        ${events.map(evt => {
-          const isTireTest = evt.isTireTest ? evt.isTireTest() : evt.tipoEvento === EVENT_TYPES.TIRE_TEST;
-          let statusBadgeClass = 'badge-status-scheduled';
-          if (evt.estado === EVENT_STATUS.IN_PROGRESS) statusBadgeClass = 'badge-status-live';
-          if (evt.estado === EVENT_STATUS.COMPLETED) statusBadgeClass = 'badge-status-finished';
-
-          return `
-            <div class="event-card ${isTireTest ? 'event-card-tire-test' : ''}" data-event-id="${evt.id}">
-              <div class="event-card-header">
-                <div class="event-tags">
-                  <span class="badge-category badge-cat-${this._getCategorySlug(evt.categoria)}">${this.escapeHTML(evt.categoria)}</span>
-                  ${isTireTest ? `<span class="badge-tire-test">🟡 Test Pirelli</span>` : `<span class="badge-round">Round ${evt.roundNumero || '1'}</span>`}
-                </div>
-                <span class="badge-status ${statusBadgeClass}">${this.escapeHTML(evt.estado)}</span>
-              </div>
-
-              <div class="event-card-body">
-                <div class="event-date-row">
-                  <span class="event-flag">${evt.banderaPais || '🏁'}</span>
-                  <span class="event-dates">${DateFormatter.formatDateRange(evt.fechaInicio, evt.fechaFin)}</span>
-                </div>
-
-                <h3 class="event-title">${this.escapeHTML(evt.nombre)}</h3>
-
-                <div class="event-location">
-                  <span class="loc-icon">📍</span>
-                  <span class="circuit-name">${this.escapeHTML(evt.circuito)}</span>
-                  <span class="city-name">(${this.escapeHTML(evt.ciudad)}, ${this.escapeHTML(evt.pais)})</span>
-                </div>
-
-                ${isTireTest ? `
-                  <div class="tire-test-highlight">
-                    <div class="tire-spec-row">
-                      <strong>Compuestos en evaluación:</strong>
-                      <div class="tire-chips-row">
-                        ${(evt.compuestosEvaluados || ['C2', 'C3', 'C4']).map(c => `<span class="tire-pill">${this.escapeHTML(c)}</span>`).join('')}
-                      </div>
-                    </div>
-                    <p class="tire-test-desc">${this.escapeHTML(evt.objetivoPrueba || evt.descripcion)}</p>
-                  </div>
-                ` : `
-                  <div class="event-quick-metrics">
-                    <div class="metric-item">
-                      <span class="metric-label">Vueltas</span>
-                      <span class="metric-value">${evt.vueltas || '-'}</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="metric-label">Distancia</span>
-                      <span class="metric-value">${evt.distanciaKm ? `${evt.distanciaKm} km` : '-'}</span>
-                    </div>
-                    <div class="metric-item">
-                      <span class="metric-label">Longitud</span>
-                      <span class="metric-value">${evt.longitudCircuitoKm ? `${evt.longitudCircuitoKm} km` : '-'}</span>
-                    </div>
-                  </div>
-                `}
-              </div>
-
-              <div class="event-card-footer">
-                <button class="btn btn-sm btn-outline btn-view-event" data-event-id="${evt.id}">
-                  Ver Ficha Técnica
-                </button>
-                ${canEdit ? `
-                  <div class="admin-card-actions">
-                    <button class="btn-action-icon btn-edit-event" data-event-id="${evt.id}" title="Editar Evento">✏️</button>
-                    <button class="btn-action-icon btn-delete-event text-danger" data-event-id="${evt.id}" title="Eliminar Evento">🗑️</button>
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    `;
   }
 
   _renderEventsTable(events, canEdit) {
@@ -264,22 +179,6 @@ export class CalendarView extends BaseView {
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         if (this.onFilterChange) this.onFilterChange({ searchQuery: e.target.value });
-      });
-    }
-
-    // View toggles
-    const gridBtn = container.querySelector('#btn-view-grid');
-    const tableBtn = container.querySelector('#btn-view-table');
-    if (gridBtn) {
-      gridBtn.addEventListener('click', () => {
-        this.currentViewMode = 'grid';
-        if (this.onViewModeChange) this.onViewModeChange('grid');
-      });
-    }
-    if (tableBtn) {
-      tableBtn.addEventListener('click', () => {
-        this.currentViewMode = 'table';
-        if (this.onViewModeChange) this.onViewModeChange('table');
       });
     }
 
