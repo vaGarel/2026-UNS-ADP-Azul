@@ -10,12 +10,8 @@ export const STORAGE_KEYS = {
   TEAMS: 'fia_teams',
   DRIVERS: 'fia_drivers',
   CARS: 'fia_cars',
-  TECHNICAL_CONTROLS: 'fia_technical_controls',
-  SANCTIONS: 'fia_sanctions',
   RACE_RESULTS: 'fia_race_results',
   USERS: 'fia_users',
-  CONVERSATIONS: 'fia_conversations',
-  MESSAGES: 'fia_messages',
   CURRENT_USER: 'fia_current_user',
   SEEDED: 'fia_data_seeded_v1'
 };

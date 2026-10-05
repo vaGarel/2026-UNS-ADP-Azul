@@ -1,6 +1,6 @@
 # Mapeo y Complemento del Diagrama de Clases - FIA 2026
 
-El siguiente esquema detalla las clases presentes en el diagrama conceptual suministrado, complementadas con los atributos requeridos para el cumplimiento completo del Enunciado 1 de la FIA (gestión de categorías F1/F2/F3/F1 Academy, pruebas de neumáticos, roles de usuario, controles técnicos, sanciones y mensajería interna).
+El siguiente esquema detalla las clases presentes en el diagrama conceptual suministrado, complementadas con los atributos requeridos para el cumplimiento completo del Enunciado 1 de la FIA (gestión de categorías F1/F2/F3/F1 Academy, pruebas de neumáticos y roles de usuario).
 
 ---
 
@@ -24,7 +24,6 @@ classDiagram
         +Boolean activo
         +canManageCalendar() Boolean
         +canManageScores() Boolean
-        +canManageDrivers() Boolean
         +canAcknowledgeNotifications() Boolean
     }
 
@@ -126,36 +125,6 @@ classDiagram
         +CAR_STATUS estado
     }
 
-    class ControlTecnico {
-        +Date fecha
-        +UUID eventoId
-        +UUID autoId
-        +Number autoNumero
-        +UUID escuderiaId
-        +CONTROL_TYPES tipoControl
-        +CONTROL_STATUS estado
-        +Boolean aprobado
-        +String mediciones
-        +String comisarioTecnico
-        +String observaciones
-    }
-
-    class Sancion {
-        +Date fecha
-        +UUID eventoId
-        +UUID pilotoId
-        +UUID escuderiaId
-        +SANCTION_TYPES tipoSancion
-        +String valorPenalidad
-        +SANCTION_SEVERITY gravedad
-        +String motivo
-        +String articuloReglamento
-        +Boolean notificadoEscuderia
-        +DateTime fechaNotificacion
-        +String responsableNotificacion
-        +acknowledgeNotification(resp) void
-    }
-
     class Puntaje {
         +UUID eventoId
         +UUID pilotoId
@@ -171,47 +140,15 @@ classDiagram
         +acknowledgePoints() void
     }
 
-    class Conversacion {
-        +String asunto
-        +String categoria
-        +UUID participanteFIAId
-        +UUID escuderiaId
-        +String escuderiaNombre
-        +CONVERSATION_STATUS estado
-        +Number mensajesCount
-        +String ultimoMensajeTexto
-        +DateTime ultimoMensajeFecha
-    }
-
-    class Mensaje {
-        +UUID conversacionId
-        +UUID emisorId
-        +String emisorNombre
-        +String emisorRol
-        +DateTime timestamp
-        +String cuerpo
-        +MESSAGE_PRIORITY prioridad
-        +Boolean leido
-    }
-
     BaseEntity <|-- Escuderia
     BaseEntity <|-- Piloto
     BaseEntity <|-- Auto
-    BaseEntity <|-- ControlTecnico
-    BaseEntity <|-- Sancion
     BaseEntity <|-- Puntaje
-    BaseEntity <|-- Conversacion
-    BaseEntity <|-- Mensaje
 
     Escuderia "1" o-- "*" Auto : posee
     Escuderia "1" o-- "*" Piloto : contrata
-    Auto "1" <-- "*" ControlTecnico : auditado por
     EventoDeportivo "1" <-- "*" Puntaje : tiene resultados
     Piloto "1" <-- "*" Puntaje : obtiene
-    Piloto "0..1" <-- "*" Sancion : recibe
-    Escuderia "1" <-- "*" Sancion : notificada
-    Usuario "1" <-- "*" Conversacion : participa
-    Conversacion "1" *-- "*" Mensaje : contiene
 ```
 
 ---
@@ -220,6 +157,4 @@ classDiagram
 1. **`EventoDeportivo`**: Se incorporaron atributos de metadatos de carrera (`distanciaKm`, `vueltas`, `longitudCircuitoKm`, `recordVuelta`, `recordPiloto`, `banderaPais`, `puntajesRegistrados`) y validación de negocio.
 2. **`PruebaNeumatico`**: Especialización de `EventoDeportivo` con atributos reglamentarios de Pirelli Motorsport (`compuestosEvaluados`, `proveedorOficial`, `temperaturaPistaObjetivoC`).
 3. **`Piloto`**: Se añadió el atributo `rol` (`Titular` / `Suplente / Reserva`) para cumplir explícitamente con el requerimiento de carga de pilotos de las escuderías.
-4. **`ControlTecnico`**: Se añadieron `mediciones`, `comisarioTecnico` y `tipoControl` (peso mínimo, alerón, combustible, desgaste de plancha).
-5. **`Sancion`** y **`Puntaje`**: Se integraron los atributos de trazabilidad legal de notificación (`notificadoEscuderia`, `fechaNotificacion`, `responsableNotificacion`), requeridos por la FIA.
-6. **`Conversacion`** y **`Mensaje`**: Se implementó con `prioridad`, `timestamp`, `emisorRol` y seguridad TLS simulada.
+4. **`Puntaje`**: Se integraron los atributos de trazabilidad legal de notificación (`notificadoEscuderia`, `fechaNotificacion`), requeridos por la FIA y el esquema oficial de puntuación 2026 (sin bonificación por vuelta rápida).

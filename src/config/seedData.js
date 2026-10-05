@@ -2,12 +2,8 @@ import { FIA_CATEGORIES, EVENT_TYPES, EVENT_STATUS } from '../models/SportEvent.
 import { PIRELLI_COMPOUNDS } from '../models/TireTestEvent.js';
 import { DRIVER_ROLES } from '../models/Driver.js';
 import { CAR_STATUS } from '../models/Car.js';
-import { CONTROL_TYPES, CONTROL_STATUS } from '../models/TechnicalControl.js';
-import { SANCTION_TYPES, SANCTION_SEVERITY } from '../models/Sanction.js';
 import { RACE_STATUS } from '../models/RaceResult.js';
 import { USER_ROLES } from '../models/User.js';
-import { CONVERSATION_STATUS } from '../models/Conversation.js';
-import { MESSAGE_PRIORITY } from '../models/Message.js';
 
 export const INITIAL_TEAMS = [
   {
@@ -624,8 +620,8 @@ export const INITIAL_RACE_RESULTS = [
     escuderiaNombre: 'Oracle Red Bull Racing',
     posicion: 1,
     tiempoTotal: '1:31:44.742',
-    puntos: 26, // 25 + 1 Fast Lap
-    puntosEscuderia: 26,
+    puntos: 25, // 25 PTS (Sin punto por vuelta rápida según reglamento FIA 2026)
+    puntosEscuderia: 25,
     vueltaRapida: true,
     estadoFinal: RACE_STATUS.FINISHED,
     notificadoEscuderia: true,
@@ -733,105 +729,12 @@ export const INITIAL_RACE_RESULTS = [
     escuderiaNombre: 'Scuderia Ferrari HP',
     posicion: 3,
     tiempoTotal: '+3.120s',
-    puntos: 16, // 15 + 1 Fast Lap
-    puntosEscuderia: 16,
+    puntos: 15, // 15 PTS (Sin punto por vuelta rápida según reglamento FIA 2026)
+    puntosEscuderia: 15,
     vueltaRapida: true,
     estadoFinal: RACE_STATUS.FINISHED,
     notificadoEscuderia: false, // Pending ack for demo!
     fechaNotificacion: null
-  }
-];
-
-export const INITIAL_TECHNICAL_CONTROLS = [
-  {
-    id: 'tc-001',
-    fecha: '2026-03-06',
-    eventoId: 'evt-2026-01',
-    eventoNombre: 'Bahrain Grand Prix 2026',
-    autoId: 'car-sf26-16',
-    autoNumero: 16,
-    escuderiaId: 'team-ferrari',
-    escuderiaNombre: 'Scuderia Ferrari HP',
-    pilotoNombre: 'Charles Leclerc',
-    tipoControl: CONTROL_TYPES.WEIGHT_LIMIT,
-    estado: CONTROL_STATUS.PASSED,
-    aprobado: true,
-    mediciones: 'Peso verificado: 798.8 kg (Mínimo reglamentario: 798.0 kg). Conforme.',
-    comisarioTecnico: 'Jo Bauer (Delegado Técnico FIA)',
-    observaciones: 'Sin irregularidades detectadas.'
-  },
-  {
-    id: 'tc-002',
-    fecha: '2026-03-06',
-    eventoId: 'evt-2026-01',
-    eventoNombre: 'Bahrain Grand Prix 2026',
-    autoId: 'car-rb22-01',
-    autoNumero: 1,
-    escuderiaId: 'team-redbull',
-    escuderiaNombre: 'Oracle Red Bull Racing',
-    pilotoNombre: 'Max Verstappen',
-    tipoControl: CONTROL_TYPES.AERO_FLEXIBILITY,
-    estado: CONTROL_STATUS.PASSED,
-    aprobado: true,
-    mediciones: 'Deflexión del flap superior: 1.8 mm (Máximo permitido: 2.0 mm).',
-    comisarioTecnico: 'Jo Bauer (Delegado Técnico FIA)',
-    observaciones: 'Alerón dentro de la tolerancia estipulada en el Art. 3.15.'
-  },
-  {
-    id: 'tc-003',
-    fecha: '2026-07-03',
-    eventoId: 'evt-2026-05',
-    eventoNombre: 'British Grand Prix 2026',
-    autoId: 'car-sf26-44',
-    autoNumero: 44,
-    escuderiaId: 'team-ferrari',
-    escuderiaNombre: 'Scuderia Ferrari HP',
-    pilotoNombre: 'Lewis Hamilton',
-    tipoControl: CONTROL_TYPES.PLANK_WEAR,
-    estado: CONTROL_STATUS.PASSED,
-    aprobado: true,
-    mediciones: 'Espesor de la plancha: 9.8 mm (Límite mínimo: 9.0 mm).',
-    comisarioTecnico: 'Nikolas Tombazis (Director de Monoplazas FIA)',
-    observaciones: 'Revisión técnica post-práctica libre 1 satisfactoria.'
-  }
-];
-
-export const INITIAL_SANCTIONS = [
-  {
-    id: 'snc-001',
-    fecha: '2026-03-22',
-    eventoId: 'evt-2026-02',
-    eventoNombre: 'Saudi Arabian Grand Prix 2026',
-    pilotoId: 'drv-verstappen',
-    pilotoNombre: 'Max Verstappen',
-    escuderiaId: 'team-redbull',
-    escuderiaNombre: 'Oracle Red Bull Racing',
-    tipoSancion: SANCTION_TYPES.TIME_PENALTY,
-    valorPenalidad: '+5 Segundos',
-    gravedad: SANCTION_SEVERITY.MEDIUM,
-    motivo: 'Exceder reiteradamente los límites de pista en la curva 23 sin causa justificada tras 3 advertencias.',
-    articuloReglamento: 'Art. 33.3 del Reglamento Deportivo de Fórmula 1 de la FIA',
-    notificadoEscuderia: true,
-    fechaNotificacion: '2026-03-22T21:40:00Z',
-    responsableNotificacion: 'Jonathan Wheatley (Red Bull Racing)'
-  },
-  {
-    id: 'snc-002',
-    fecha: '2026-07-03',
-    eventoId: 'evt-2026-05',
-    eventoNombre: 'British Grand Prix 2026',
-    pilotoId: 'drv-hamilton',
-    pilotoNombre: 'Lewis Hamilton',
-    escuderiaId: 'team-ferrari',
-    escuderiaNombre: 'Scuderia Ferrari HP',
-    tipoSancion: SANCTION_TYPES.FINANCIAL_FINE,
-    valorPenalidad: '€10,000 EUR a la Escudería',
-    gravedad: SANCTION_SEVERITY.LOW,
-    motivo: 'Unsafe release en el Pit Lane durante la sesión de clasificación libre interfiriendo con el auto #4.',
-    articuloReglamento: 'Art. 34.14 del Reglamento Deportivo de Fórmula 1 de la FIA',
-    notificadoEscuderia: false, // Unacknowledged for demo to show interactive button!
-    fechaNotificacion: null,
-    responsableNotificacion: ''
   }
 ];
 
@@ -878,70 +781,5 @@ export const INITIAL_USERS = [
     recibirAlertas: true,
     avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
     activo: true
-  }
-];
-
-export const INITIAL_CONVERSATIONS = [
-  {
-    id: 'conv-001',
-    asunto: 'Notificación de Procedimiento para Pruebas de Neumáticos Pirelli en Silverstone',
-    categoria: 'Reglamentario / Neumáticos',
-    participanteFIAId: 'usr-admin-fia',
-    participanteFIANombre: 'Niels Wittich (Director de Carrera FIA)',
-    escuderiaId: 'team-ferrari',
-    escuderiaNombre: 'Scuderia Ferrari HP',
-    estado: CONVERSATION_STATUS.ACTIVE,
-    mensajesCount: 2,
-    ultimoMensajeTexto: 'Confirmamos la recepción del protocolo de neumáticos ciegos para el test.',
-    ultimoMensajeFecha: '2026-07-02T16:45:00Z'
-  },
-  {
-    id: 'conv-002',
-    asunto: 'Aclaración Técnica sobre Homologación de Alerón Trasero DRS 2026',
-    categoria: 'Técnico / Homologación',
-    participanteFIAId: 'usr-admin-fia',
-    participanteFIANombre: 'Jo Bauer (Delegado Técnico FIA)',
-    escuderiaId: 'team-redbull',
-    escuderiaNombre: 'Oracle Red Bull Racing',
-    estado: CONVERSATION_STATUS.ACTIVE,
-    mensajesCount: 1,
-    ultimoMensajeTexto: 'Se aprueba el esquema CAD remitido para el conducto de refrigeración.',
-    ultimoMensajeFecha: '2026-07-01T11:20:00Z'
-  }
-];
-
-export const INITIAL_MESSAGES = [
-  {
-    id: 'msg-001',
-    conversacionId: 'conv-001',
-    emisorId: 'usr-admin-fia',
-    emisorNombre: 'Niels Wittich (FIA)',
-    emisorRol: USER_ROLES.ADMIN_FIA,
-    timestamp: '2026-07-02T15:30:00Z',
-    cuerpo: 'Estimado equipo Ferrari: Recordamos que para el test de neumáticos del 7 de julio en Silverstone, cada piloto debe completar un mínimo de 65 vueltas con los prototipos C4 y C5.',
-    prioridad: MESSAGE_PRIORITY.URGENT,
-    leido: true
-  },
-  {
-    id: 'msg-002',
-    conversacionId: 'conv-001',
-    emisorId: 'usr-admin-ferrari',
-    emisorNombre: 'Frédéric Vasseur (Ferrari)',
-    emisorRol: USER_ROLES.ADMIN_ESCUDERIA,
-    timestamp: '2026-07-02T16:45:00Z',
-    cuerpo: 'Confirmamos la recepción del protocolo de neumáticos ciegos para el test. Nuestros pilotos Charles Leclerc y Lewis Hamilton participarán en los turnos de mañana y tarde.',
-    prioridad: MESSAGE_PRIORITY.NORMAL,
-    leido: true
-  },
-  {
-    id: 'msg-003',
-    conversacionId: 'conv-002',
-    emisorId: 'usr-admin-fia',
-    emisorNombre: 'Jo Bauer (FIA)',
-    emisorRol: USER_ROLES.ADMIN_FIA,
-    timestamp: '2026-07-01T11:20:00Z',
-    cuerpo: 'Se aprueba el esquema CAD remitido para el conducto de refrigeración de frenos posteriores. Monoplazas autorizados para rodar en FP1.',
-    prioridad: MESSAGE_PRIORITY.NORMAL,
-    leido: true
   }
 ];

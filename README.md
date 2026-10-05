@@ -8,7 +8,7 @@
 
 ## 📋 Descripción del Proyecto
 
-El sistema es una plataforma web desarrollada para la **Federación Internacional del Automóvil (FIA)** que permite gestionar todas sus categorías de monoplazas (**Fórmula 1, Fórmula 2, Fórmula 3 y F1 Academy**). La plataforma centraliza el calendario oficial de carreras y pruebas de neumáticos, los puntajes del campeonato, el registro de escuderías y pilotos, los controles técnicos y las sanciones reglamentarias, adaptando su interfaz según los diferentes roles de usuario (**Administrativos de la FIA, Administrativos de Escuderías y Público General**).
+El sistema es una plataforma web desarrollada para la **Federación Internacional del Automóvil (FIA)** que permite gestionar todas sus categorías de monoplazas (**Fórmula 1, Fórmula 2, Fórmula 3 y F1 Academy**). La plataforma centraliza el calendario oficial de carreras y pruebas de neumáticos, los puntajes del campeonato y el registro de escuderías y pilotos, adaptando su interfaz según los diferentes roles de usuario (**Administrativos de la FIA, Administrativos de Escuderías y Público General**).
 
 Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegramente en JavaScript con **Arquitectura en Capas**, principios **SOLID** y el patrón **MVC (Modelo - Vista - Controlador)**.
 
@@ -43,28 +43,12 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
    - **Exportación y descarga del calendario:** Formato estándar iCalendar (`.ics`) para Google Calendar / Outlook y formato `.json`.
 
 2. **Carga y Registro de Puntajes Oficiales (US 07):**
-   - Formulario para ingreso de resultados de carrera por personal FIA con validación de pilotos y escuderías.
-   - Cálculo automático de puntos según el reglamento FIA (25-18-15-12-10-8-6-4-2-1 + 1 pt por Vuelta Rápida en el Top 10).
+   - Formulario para ingreso de resultados de carrera por personal FIA con validación de pilotos y escuderías precargadas para la demo.
+   - Cálculo automático de puntos según el reglamento oficial FIA 2026 (25-18-15-12-10-8-6-4-2-1, sin punto de vuelta rápida).
    - Tablas actualizadas del Campeonato Mundial de Pilotos y de Constructores.
    - Botón interactivo para que las escuderías puedan **asentar formalmente que se han notificado del puntaje recibido** con fecha y hora.
 
-3. **Registro de Escuderías y Pilotos (Titulares y Suplentes):**
-   - Administración de pilotos titulares y reservas.
-   - Vinculación con monoplazas y directores de equipo.
-   - Estadísticas de victorias, podios y puntos.
-
-4. **Controles Técnicos Oficiales:**
-   - Registro de verificaciones en parque cerrado (peso mínimo, alerón delantero, combustible, desgaste de plancha de fondo).
-   - Dictamen de Aprobado / Rechazado visible para escuderías y aficionados.
-
-5. **Registro de Sanciones y Penalizaciones:**
-   - Publicación de resoluciones de comisarios deportivos (penalizaciones de tiempo, grilla, multas económicas, DSQ).
-   - Sistema de firma digital / asentamiento de notificación por parte de las escuderías.
-
-6. **Mensajería Interna Segura (FIA ↔ Escuderías):**
-   - Canales oficiales de comunicación con prioridad urgente y trazabilidad.
-
-7. **Selector Dinámico de Roles (Demo Tool):**
+3. **Selector Dinámico de Roles (Demo Tool):**
    - Botón en la barra superior que permite alternar en 1 clic entre **Admin FIA**, **Admin Escudería (Ferrari / Red Bull)** y **Público General**, permitiendo verificar de inmediato los permisos y restricciones de cada rol.
 
 ---
@@ -111,9 +95,6 @@ Y abrir `http://localhost:8000` en el navegador.
 │   ├── components.css
 │   ├── calendar.css
 │   ├── scores.css
-│   ├── teams.css
-│   ├── sanctions.css
-│   ├── messages.css
 │   └── modals.css
 └── src/                        # Código fuente modular en JS (ES Modules)
     ├── app.js                  # Entry point
@@ -127,11 +108,7 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── Team.js
     │   ├── Driver.js
     │   ├── Car.js
-    │   ├── TechnicalControl.js
-    │   ├── Sanction.js
-    │   ├── RaceResult.js
-    │   ├── Conversation.js
-    │   └── Message.js
+    │   └── RaceResult.js
     ├── repositories/           # Capa de Acceso a Datos
     │   ├── BaseRepository.js
     │   ├── EventRepository.js
@@ -139,21 +116,12 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── TeamRepository.js
     │   ├── DriverRepository.js
     │   ├── CarRepository.js
-    │   ├── TechnicalControlRepository.js
-    │   ├── SanctionRepository.js
-    │   ├── UserRepository.js
-    │   ├── ConversationRepository.js
-    │   └── MessageRepository.js
+    │   └── UserRepository.js
     ├── services/               # Capa de Lógica de Negocio
     │   ├── StorageService.js
     │   ├── AuthService.js
     │   ├── CalendarService.js
     │   ├── ScoreService.js
-    │   ├── TeamDriverService.js
-    │   ├── TechnicalControlService.js
-    │   ├── SanctionService.js
-    │   ├── MessagingService.js
-    │   ├── UserAdminService.js
     │   └── strategies/
     │       ├── IScoringStrategy.js
     │       ├── F1ScoringStrategy.js
@@ -162,22 +130,12 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── AppController.js
     │   ├── AuthController.js
     │   ├── CalendarController.js
-    │   ├── ScoreController.js
-    │   ├── TeamDriverController.js
-    │   ├── TechnicalControlController.js
-    │   ├── SanctionController.js
-    │   ├── MessagingController.js
-    │   └── UserAdminController.js
+    │   └── ScoreController.js
     ├── views/                  # Capa de Vistas (MVC)
     │   ├── BaseView.js
     │   ├── NavbarView.js
     │   ├── CalendarView.js
-    │   ├── ScoreView.js
-    │   ├── TeamDriverView.js
-    │   ├── TechnicalControlView.js
-    │   ├── SanctionView.js
-    │   ├── MessagingView.js
-    │   └── UserAdminView.js
+    │   └── ScoreView.js
     └── utils/                  # Utilidades transversales
         ├── EventEmitter.js
         ├── ToastNotification.js

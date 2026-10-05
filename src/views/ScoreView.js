@@ -24,7 +24,7 @@ export class ScoreView extends BaseView {
           <div class="hero-text">
             <div class="hero-badge">SISTEMA OFICIAL DE PUNTUACIÓN FIA</div>
             <h2 class="hero-title">Puntajes y Clasificación del Campeonato 2026</h2>
-            <p class="hero-subtitle">Registro y validación de resultados de carrera, cálculo de puntos según normativa FIA (25-18-15-12-10-8-6-4-2-1 + Vuelta Rápida) y trazabilidad de notificaciones a escuderías.</p>
+            <p class="hero-subtitle">Registro y validación de resultados de carrera, cálculo de puntos según normativa FIA (25-18-15-12-10-8-6-4-2-1) y trazabilidad de notificaciones a escuderías.</p>
           </div>
           <div class="hero-actions">
             ${canManageScores ? `
@@ -229,7 +229,7 @@ export class ScoreView extends BaseView {
                           <td>${this.escapeHTML(r.escuderiaNombre)}</td>
                           <td><code>${this.escapeHTML(r.tiempoTotal || 'En Vuelta')}</code></td>
                           <td>
-                            ${r.vueltaRapida ? '<span class="badge-fastest-lap">🟣 +1 Pt (1:31.447)</span>' : '<span class="text-muted">-</span>'}
+                            ${r.vueltaRapida ? '<span class="badge-fastest-lap">🟣 1:31.447</span>' : '<span class="text-muted">-</span>'}
                           </td>
                           <td><strong class="points-badge">${r.puntos} PTS</strong></td>
                           <td>

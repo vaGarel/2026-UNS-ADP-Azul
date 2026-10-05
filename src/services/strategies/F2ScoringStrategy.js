@@ -23,14 +23,10 @@ export class F2ScoringStrategy extends IScoringStrategy {
   calculatePoints(position, hasFastestLap = false, isFinished = true) {
     if (!isFinished) return 0;
     const pos = Number(position);
-    let pts = this.pointsMap[pos] || 0;
-    if (hasFastestLap && pos >= 1 && pos <= 10) {
-      pts += 1;
-    }
-    return pts;
+    return this.pointsMap[pos] || 0;
   }
 
   getPointsTable() {
-    return { ...this.pointsMap, fastestLapBonus: 1, fastestLapMinPosition: 10 };
+    return { ...this.pointsMap };
   }
 }

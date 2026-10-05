@@ -12,23 +12,20 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. CAPA DE PRESENTACIÓN (Views & UI Components)             │
-│    - NavbarView, CalendarView, ScoreView, TeamDriverView    │
-│    - TechnicalControlView, SanctionView, MessagingView      │
+│    - NavbarView, CalendarView, ScoreView                    │
 │    - ModalManager, ToastNotification, DateFormatter         │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (Eventos y llamadas)
 ┌──────────────────────────────▼──────────────────────────────┐
 │ 2. CAPA DE CONTROLADORES (MVC Controllers)                  │
-│    - CalendarController, ScoreController, TeamController   │
-│    - TechnicalControlController, SanctionController         │
-│    - MessagingController, AuthController, AppController    │
+│    - CalendarController, ScoreController                    │
+│    - AuthController, AppController                          │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (Invocación de lógica de negocio)
 ┌──────────────────────────────▼──────────────────────────────┐
 │ 3. CAPA DE SERVICIOS / NEGOCIO (Domain Services)            │
-│    - CalendarService, ScoreService, TeamDriverService       │
-│    - TechnicalControlService, SanctionService               │
-│    - MessagingService, AuthService, UserAdminService        │
+│    - CalendarService, ScoreService                          │
+│    - AuthService                                            │
 │    - Estrategias de Puntuación (F1ScoringStrategy, etc.)    │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (CRUD y Consultas)
@@ -36,8 +33,7 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 │ 4. CAPA DE ACCESO A DATOS / PERSISTENCIA (Repositories)     │
 │    - BaseRepository<T>, EventRepository, ScoreRepository   │
 │    - TeamRepository, DriverRepository, CarRepository        │
-│    - TechnicalControlRepository, SanctionRepository        │
-│    - UserRepository, ConversationRepository, MessageRepo   │
+│    - UserRepository                                         │
 │    - StorageService (LocalStorage + Mock Dataset 2026)      │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (Instanciación de entidades)
@@ -45,7 +41,7 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 │ 5. CAPA DE DOMINIO / MODELOS (Domain Entities)              │
 │    - BaseEntity, User (AdminFIA, AdminEscuderia, PublicUser)│
 │    - SportEvent (TireTestEvent), Team, Driver, Car          │
-│    - TechnicalControl, Sanction, RaceResult, Conversation   │
+│    - RaceResult                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -69,7 +65,7 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 - `TireTestEvent` hereda de `SportEvent` y puede ser procesado por el calendario y filtros de manera transparente.
 
 ### **I - Interface Segregation Principle (Principio de Segregación de Interfaces)**
-- Las responsabilidades de los servicios están divididas en interfaces/clases pequeñas y focalizadas. Un controlador de calendario solo interactúa con `CalendarService`, sin depender de métodos de mensajería o sanciones.
+- Las responsabilidades de los servicios están divididas en interfaces/clases pequeñas y focalizadas. Un controlador de calendario solo interactúa con `CalendarService`, sin depender de métodos de mensajería o usuarios.
 
 ### **D - Dependency Inversion Principle (Principio de Inversión de Dependencias)**
 - Todos los controladores reciben sus dependencias (servicios, vistas, repositorios) inyectadas en su constructor (`AppController` actúa como contenedor de Inyección de Dependencias).

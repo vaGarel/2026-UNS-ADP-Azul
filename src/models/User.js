@@ -49,23 +49,8 @@ export class User extends BaseEntity {
     return this.isAdminFIA();
   }
 
-  canManageTechnicalControls() {
-    return this.isAdminFIA();
-  }
-
-  canManageSanctions() {
-    return this.isAdminFIA();
-  }
-
-  canManageDrivers() {
-    return this.isAdminFIA() || this.isAdminEscuderia();
-  }
 
   canAcknowledgeNotifications() {
     return this.isAdminEscuderia();
-  }
-
-  canAccessInternalMessages() {
-    return this.isAdminFIA() || this.isAdminEscuderia();
   }
 }

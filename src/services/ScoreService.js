@@ -103,7 +103,7 @@ export class ScoreService {
     // Recalcular acumulados del campeonato
     this._recalculateChampionshipStandings();
 
-    this.eventEmitter.emit('scores:updated', { eventId, result: savedResult });
+    this.eventEmitter.emit('scores:updated', { eventId: eventoId, result: savedResult });
     return savedResult;
   }
 

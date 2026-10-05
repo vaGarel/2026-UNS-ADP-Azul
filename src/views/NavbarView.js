@@ -63,35 +63,6 @@ export class NavbarView extends BaseView {
                 <span class="nav-icon">🏆</span> Puntajes & Campeonato
               </button>
             </li>
-            <li>
-              <button class="nav-tab ${currentSection === 'teams' ? 'active' : ''}" data-section="teams">
-                <span class="nav-icon">🏎️</span> Escuderías & Pilotos
-              </button>
-            </li>
-            <li>
-              <button class="nav-tab ${currentSection === 'technical' ? 'active' : ''}" data-section="technical">
-                <span class="nav-icon">🛠️</span> Controles Técnicos
-              </button>
-            </li>
-            <li>
-              <button class="nav-tab ${currentSection === 'sanctions' ? 'active' : ''}" data-section="sanctions">
-                <span class="nav-icon">🚩</span> Sanciones
-              </button>
-            </li>
-            ${!currentUser.isPublico() ? `
-            <li>
-              <button class="nav-tab ${currentSection === 'messages' ? 'active' : ''}" data-section="messages">
-                <span class="nav-icon">💬</span> Mensajería Interna
-              </button>
-            </li>
-            ` : ''}
-            ${currentUser.isAdminFIA() ? `
-            <li>
-              <button class="nav-tab ${currentSection === 'users' ? 'active' : ''}" data-section="users">
-                <span class="nav-icon">👥</span> Gestión Usuarios
-              </button>
-            </li>
-            ` : ''}
           </ul>
         </nav>
       </header>

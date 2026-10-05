@@ -37,10 +37,10 @@ export class AuthController {
           <div class="role-permissions-list">
             <small class="text-muted">
               ${u.rol === USER_ROLES.ADMIN_FIA
-                ? '• Gestión total de calendario, puntajes, sanciones, verificaciones y usuarios.'
+                ? '• Gestión total de calendario deportivo oficial y registro/modificación de puntajes de carrera.'
                 : (u.rol === USER_ROLES.ADMIN_ESCUDERIA
-                  ? `• Edición de pilotos de ${u.escuderiaNombre}, asentado de notificaciones y mensajería oficial con FIA.`
-                  : '• Consulta y visualización del calendario, clasificación, sanciones y descarga .ics.')}
+                  ? `• Consulta del calendario y asentado formal de notificaciones oficiales de puntajes para ${u.escuderiaNombre}.`
+                  : '• Consulta y visualización del calendario deportivo, clasificación de campeonato y descarga de eventos.')}
             </small>
           </div>
           <button class="btn btn-sm ${isSelected ? 'btn-primary' : 'btn-outline'} btn-select-role w-100 mt-2">

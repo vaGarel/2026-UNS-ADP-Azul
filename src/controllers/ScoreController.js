@@ -139,14 +139,6 @@ export class ScoreController {
           </div>
         </div>
 
-        <div class="form-check-group mt-2">
-          <label class="custom-checkbox">
-            <input type="checkbox" id="score-fastest-lap">
-            <span class="checkmark"></span>
-            <span class="checkbox-label"><strong>🟣 Registró la Vuelta Rápida (+1 Punto FIA si termina en Top 10)</strong></span>
-          </label>
-        </div>
-
         <div class="score-points-preview-box mt-3" id="points-preview">
           <span>Puntos calculados automáticamente por regla FIA: <strong id="preview-pts">25 PTS</strong></span>
         </div>
@@ -168,13 +160,11 @@ export class ScoreController {
         const driverSelect = form.querySelector('#score-driver');
         const teamSelect = form.querySelector('#score-team');
         const posInput = form.querySelector('#score-position');
-        const fastLapCheck = form.querySelector('#score-fastest-lap');
         const previewPts = form.querySelector('#preview-pts');
 
         const updatePreview = () => {
           const pos = Number(posInput.value) || 1;
-          const hasFl = fastLapCheck.checked;
-          const pts = this.scoreService.scoringStrategy.calculatePoints(pos, hasFl, true);
+          const pts = this.scoreService.scoringStrategy.calculatePoints(pos, false, true);
           previewPts.textContent = `${pts} PTS`;
         };
 
@@ -186,7 +176,6 @@ export class ScoreController {
         });
 
         posInput.addEventListener('input', updatePreview);
-        fastLapCheck.addEventListener('change', updatePreview);
 
         form.addEventListener('submit', (e) => {
           e.preventDefault();
@@ -198,7 +187,7 @@ export class ScoreController {
               posicion: Number(form.querySelector('#score-position').value),
               tiempoTotal: form.querySelector('#score-time').value,
               estadoFinal: form.querySelector('#score-status').value,
-              vueltaRapida: form.querySelector('#score-fastest-lap').checked
+              vueltaRapida: false
             };
 
             this.scoreService.registerRaceScore(data);
