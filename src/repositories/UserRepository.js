@@ -25,7 +25,14 @@ export class UserRepository extends BaseRepository {
   }
 
   getByEmail(email) {
-    return this.findOne(u => u.email.toLowerCase() === email.toLowerCase());
+    const normalizedEmail = email.trim().toLowerCase();
+    return this.findOne(u => u.email.toLowerCase() === normalizedEmail);
+  }
+
+  getPasswordHashByEmail(email) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const users = this.storageService.getItem(this.storageKey, []);
+    return users.find(user => user.email?.toLowerCase() === normalizedEmail)?.passwordHash || null;
   }
 
   getByRole(role) {

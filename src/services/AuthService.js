@@ -1,8 +1,4 @@
 import { STORAGE_KEYS } from '../config/constants.js';
-import { User, USER_ROLES } from '../models/User.js';
-import { AdminFIA } from '../models/AdminFIA.js';
-import { AdminEscuderia } from '../models/AdminEscuderia.js';
-import { PublicUser } from '../models/PublicUser.js';
 
 /**
  * Servicio de Autenticación y Gestión de Sesión Activa
@@ -17,42 +13,47 @@ export class AuthService {
 
   _loadCurrentUser() {
     const raw = this.storageService.getItem(STORAGE_KEYS.CURRENT_USER);
-    if (!raw) {
-      const users = this.userRepository.getAll();
-      return users[0] || new AdminFIA({ nombre: 'Admin FIA Oficial' });
-    }
-    return this._hydrateUser(raw);
-  }
+    if (!raw?.id) return null;
 
-  _hydrateUser(raw) {
-    switch (raw.rol) {
-      case USER_ROLES.ADMIN_FIA:
-        return new AdminFIA(raw);
-      case USER_ROLES.ADMIN_ESCUDERIA:
-        return new AdminEscuderia(raw);
-      case USER_ROLES.PUBLICO:
-      default:
-        return new PublicUser(raw);
-    }
+    const user = this.userRepository.getById(raw.id);
+    return user?.activo ? user : null;
   }
 
   getCurrentUser() {
     return this.currentUser;
   }
 
-  switchUser(userId) {
-    const user = this.userRepository.getById(userId);
-    if (!user) {
-      throw new Error(`Usuario con ID ${userId} no encontrado.`);
+  async login(email, password) {
+    if (typeof email !== 'string' || typeof password !== 'string') return null;
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail || !password) return null;
+
+    const user = this.userRepository.getByEmail(normalizedEmail);
+    const passwordHash = this.userRepository.getPasswordHashByEmail(normalizedEmail);
+    if (!user?.activo || !passwordHash) return null;
+
+    if (!globalThis.crypto?.subtle) {
+      throw new Error('Web Crypto API is required for demo authentication.');
     }
 
+    const hashBuffer = await globalThis.crypto.subtle.digest(
+      'SHA-256',
+      new TextEncoder().encode(`${normalizedEmail}:${password}`)
+    );
+    const submittedHash = Array.from(new Uint8Array(hashBuffer), byte =>
+      byte.toString(16).padStart(2, '0')
+    ).join('');
+    if (submittedHash !== passwordHash) return null;
+
     this.currentUser = user;
-    this.storageService.setItem(STORAGE_KEYS.CURRENT_USER, user.toJSON());
+    this.storageService.setItem(STORAGE_KEYS.CURRENT_USER, { id: user.id });
     this.eventEmitter.emit('auth:userChanged', this.currentUser);
     return this.currentUser;
   }
 
-  getAvailableUsers() {
-    return this.userRepository.getAll();
+  logout() {
+    this.currentUser = null;
+    this.storageService.removeItem(STORAGE_KEYS.CURRENT_USER);
+    this.eventEmitter.emit('auth:userChanged', null);
   }
 }

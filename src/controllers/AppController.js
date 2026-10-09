@@ -19,6 +19,7 @@ import { F1ScoringStrategy } from '../services/strategies/F1ScoringStrategy.js';
 
 // Views
 import { NavbarView } from '../views/NavbarView.js';
+import { LoginView } from '../views/LoginView.js';
 import { CalendarView } from '../views/CalendarView.js';
 import { ScoreView } from '../views/ScoreView.js';
 
@@ -67,15 +68,15 @@ export class AppController {
 
     // 4. Capa de Vistas
     this.navbarView = new NavbarView('navbar-container');
+    this.loginView = new LoginView('main-content');
     this.calendarView = new CalendarView('main-content');
     this.scoreView = new ScoreView('main-content');
 
     // 5. Capa de Controladores Especializados (MVC)
     this.authController = new AuthController(
       this.authService,
-      this.modalManager,
-      this.toastNotification,
-      this.eventEmitter
+      this.loginView,
+      this.toastNotification
     );
     this.calendarController = new CalendarController(
       this.calendarService,
@@ -102,7 +103,8 @@ export class AppController {
 
   _bindNavigationEvents() {
     this.navbarView.setNavigationHandler((section) => this.navigateTo(section));
-    this.navbarView.setRoleSwitcherHandler(() => this.authController.openRoleSwitcherModal());
+    this.navbarView.setLogoutHandler(() => this.authController.logout());
+    this.loginView.setSubmitHandler((email, password) => this.authController.login(email, password));
 
     this.eventEmitter.on('auth:userChanged', () => {
       this.render();
@@ -121,13 +123,16 @@ export class AppController {
 
   render() {
     const currentUser = this.authService.getCurrentUser();
-    const availableUsers = this.authService.getAvailableUsers();
+    if (!currentUser) {
+      this.navbarView.render({ currentUser: null, currentSection: this.currentSection });
+      this.authController.renderLogin();
+      return;
+    }
 
     // 1. Render Navbar
     this.navbarView.render({
       currentUser,
-      currentSection: this.currentSection,
-      availableUsers
+      currentSection: this.currentSection
     });
 
     // 2. Render Active View

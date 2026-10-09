@@ -22,6 +22,7 @@ export class StorageService {
     if (!isSeeded) {
       this.resetDatabase();
     }
+    this._migrateAuthData();
   }
 
   resetDatabase() {
@@ -31,8 +32,30 @@ export class StorageService {
     this.setItem(STORAGE_KEYS.EVENTS, INITIAL_EVENTS);
     this.setItem(STORAGE_KEYS.RACE_RESULTS, INITIAL_RACE_RESULTS);
     this.setItem(STORAGE_KEYS.USERS, INITIAL_USERS);
-    this.setItem(STORAGE_KEYS.CURRENT_USER, INITIAL_USERS[0]); // Default: Admin FIA
+    this.removeItem(STORAGE_KEYS.CURRENT_USER);
     this.setItem(STORAGE_KEYS.SEEDED, true);
+  }
+
+  _migrateAuthData() {
+    const storedUsers = this.getItem(STORAGE_KEYS.USERS, []);
+    if (Array.isArray(storedUsers)) {
+      const migratedUsers = storedUsers.map(user => {
+        const seededUser = INITIAL_USERS.find(candidate => candidate.id === user.id);
+        return seededUser
+          ? {
+              ...user,
+              username: user.username || seededUser.username,
+              passwordHash: user.passwordHash || seededUser.passwordHash
+            }
+          : user;
+      });
+      this.setItem(STORAGE_KEYS.USERS, migratedUsers);
+    }
+
+    if (!this.getItem(STORAGE_KEYS.AUTH_MIGRATED, false)) {
+      this.removeItem(STORAGE_KEYS.CURRENT_USER);
+      this.setItem(STORAGE_KEYS.AUTH_MIGRATED, true);
+    }
   }
 
   getItem(key, defaultValue = null) {

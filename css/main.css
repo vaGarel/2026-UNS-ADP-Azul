@@ -5,6 +5,7 @@
 @import './calendar.css';
 @import './scores.css';
 @import './modals.css';
+@import './auth.css';
 
 /* Reset & Base Styles */
 *, *::before, *::after {

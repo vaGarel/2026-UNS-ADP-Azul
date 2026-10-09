@@ -1093,7 +1093,9 @@ export const INITIAL_USERS = [
   {
     id: 'usr-admin-fia',
     nombre: 'Mohammed Ben Sulayem / Niels Wittich',
+    username: 'fia_admin',
     email: 'race.director@fia.com',
+    passwordHash: '549fdc8523a03eafa6866809e8010c66aa4debaf87371f8eb4314a9bf1634b82',
     rol: USER_ROLES.ADMIN_FIA,
     cargo: 'Presidente / Director de Carrera FIA',
     departamento: 'Dirección de Carrera y Seguridad',
@@ -1104,7 +1106,9 @@ export const INITIAL_USERS = [
   {
     id: 'usr-admin-ferrari',
     nombre: 'Frédéric Vasseur',
+    username: 'ferrari_team',
     email: 'fvasseur@ferrari.com',
+    passwordHash: '0ac41d0183b2ece73b176d6dd0c4c3da90070738bf03977a1fd0c62a4e59c580',
     rol: USER_ROLES.ADMIN_ESCUDERIA,
     escuderiaId: 'team-ferrari',
     escuderiaNombre: 'Scuderia Ferrari HP',
@@ -1115,7 +1119,9 @@ export const INITIAL_USERS = [
   {
     id: 'usr-admin-redbull',
     nombre: 'Christian Horner',
+    username: 'redbull_team',
     email: 'chorner@redbullracing.com',
+    passwordHash: 'd5cd951baa4c2c327feff7d059dc076663b1fc98c462dad002b89773bd1c3a83',
     rol: USER_ROLES.ADMIN_ESCUDERIA,
     escuderiaId: 'team-redbull',
     escuderiaNombre: 'Oracle Red Bull Racing',
@@ -1126,7 +1132,9 @@ export const INITIAL_USERS = [
   {
     id: 'usr-admin-alpine',
     nombre: 'Oliver Oakes / Flavio Briatore',
+    username: 'alpine_team',
     email: 'ooakes@alpinef1.com',
+    passwordHash: 'b9322e60519f157467024946c42c266fec15634fae51e1a16920afcf797a8647',
     rol: USER_ROLES.ADMIN_ESCUDERIA,
     escuderiaId: 'team-alpine',
     escuderiaNombre: 'BWT Alpine F1 Team',
@@ -1137,7 +1145,9 @@ export const INITIAL_USERS = [
   {
     id: 'usr-public-fan',
     nombre: 'Aficionado F1 Internacional',
+    username: 'f1_fan',
     email: 'fan.motorsport@grandprix.com',
+    passwordHash: 'd128aec9529e5bd70b5ec5cdf4dba54a153e6cd4ceec066f63ab03dc8b1e2239',
     rol: USER_ROLES.PUBLICO,
     escuderiaFavorita: 'Scuderia Ferrari HP',
     recibirAlertas: true,

@@ -48,8 +48,23 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
    - Tablas actualizadas del Campeonato Mundial de Pilotos y de Constructores.
    - Botón interactivo para que las escuderías puedan **asentar formalmente que se han notificado del puntaje recibido** con fecha y hora.
 
-3. **Selector Dinámico de Roles (Demo Tool):**
-   - Botón en la barra superior que permite alternar en 1 clic entre **Admin FIA**, **Admin Escudería (Ferrari / Red Bull)** y **Público General**, permitiendo verificar de inmediato los permisos y restricciones de cada rol.
+3. **Autenticación por roles:**
+   - Ingreso con email y contraseña para cuentas FIA, de escudería y de público general.
+   - La sesión y los cambios de calendario/puntajes se conservan en el almacenamiento local del navegador; el usuario autenticado y su rol se muestran en la barra superior.
+
+### Cuentas de prueba
+
+Todas las cuentas de demostración usan la contraseña `FIA2026Demo!`. Ingrese con el email indicado; el nombre de usuario se muestra después de iniciar sesión.
+
+| Rol | Email | Usuario mostrado |
+| --- | --- | --- |
+| Administrador FIA | `race.director@fia.com` | `fia_admin` |
+| Administrador de escudería (Ferrari) | `fvasseur@ferrari.com` | `ferrari_team` |
+| Administrador de escudería (Red Bull) | `chorner@redbullracing.com` | `redbull_team` |
+| Administrador de escudería (Alpine) | `ooakes@alpinef1.com` | `alpine_team` |
+| Público general | `fan.motorsport@grandprix.com` | `f1_fan` |
+
+Esta autenticación se incluye únicamente para la demostración: las cuentas y verificadores se distribuyen con el código del frontend, y `localStorage` puede ser inspeccionado o modificado en el navegador. No es adecuada para proteger datos reales ni sustituye autenticación y persistencia del lado servidor.
 
 ---
 
@@ -90,6 +105,7 @@ Y abrir `http://localhost:8000` en el navegador.
 │   └── CLASS_DIAGRAM.md        # Diagrama de clases y atributos
 ├── css/                        # Sistema de diseño y hojas de estilo
 │   ├── main.css
+│   ├── auth.css
 │   ├── variables.css
 │   ├── layout.css
 │   ├── components.css
@@ -133,6 +149,7 @@ Y abrir `http://localhost:8000` en el navegador.
     │   └── ScoreController.js
     ├── views/                  # Capa de Vistas (MVC)
     │   ├── BaseView.js
+    │   ├── LoginView.js
     │   ├── NavbarView.js
     │   ├── CalendarView.js
     │   └── ScoreView.js

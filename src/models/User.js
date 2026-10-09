@@ -14,6 +14,7 @@ export class User extends BaseEntity {
   constructor({
     id = null,
     nombre = '',
+    username = '',
     email = '',
     rol = USER_ROLES.PUBLICO,
     avatar = '',
@@ -23,6 +24,7 @@ export class User extends BaseEntity {
   } = {}) {
     super(id, createdAt, updatedAt);
     this.nombre = nombre;
+    this.username = username || (email || '').split('@')[0];
     this.email = email;
     this.rol = rol;
     this.avatar = avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(nombre || 'user')}`;

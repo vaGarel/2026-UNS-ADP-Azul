@@ -45,6 +45,10 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### Autenticación de demostración
+
+`AuthService` valida el email y la contraseña de las cuentas precargadas, y conserva solo el identificador de la sesión en `localStorage`. `StorageService` migra las cuentas existentes y cierra las sesiones antiguas que se iniciaban automáticamente. El inicio de sesión en el navegador es exclusivamente demostrativo: la verificación y los permisos del cliente no constituyen una frontera de seguridad.
+
 ---
 
 ## 3. Principios SOLID Aplicados en el Código

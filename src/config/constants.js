@@ -13,5 +13,6 @@ export const STORAGE_KEYS = {
   RACE_RESULTS: 'fia_race_results',
   USERS: 'fia_users',
   CURRENT_USER: 'fia_current_user',
+  AUTH_MIGRATED: 'fia_auth_session_migrated_v1',
   SEEDED: 'fia_data_seeded_v3'
 };

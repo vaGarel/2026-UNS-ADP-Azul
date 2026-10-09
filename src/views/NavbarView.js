@@ -6,9 +6,13 @@ export class NavbarView extends BaseView {
     super(containerId);
   }
 
-  render({ currentUser, currentSection, availableUsers = [] }) {
+  render({ currentUser, currentSection }) {
     const container = this.getContainer();
     if (!container) return;
+    if (!currentUser) {
+      container.innerHTML = '';
+      return;
+    }
 
     let roleBadgeClass = 'badge-role-public';
     let roleIcon = '👤';
@@ -38,14 +42,14 @@ export class NavbarView extends BaseView {
             <div class="current-user-badge ${roleBadgeClass}">
               <span class="role-icon">${roleIcon}</span>
               <div class="user-meta">
-                <span class="user-name">${this.escapeHTML(currentUser.nombre)}</span>
+                <span class="user-name">${this.escapeHTML(currentUser.username)}</span>
                 <span class="user-role-desc">${this.escapeHTML(currentUser.getRoleLabel ? currentUser.getRoleLabel() : currentUser.rol)}</span>
               </div>
             </div>
 
             <div class="session-actions">
-              <button class="btn btn-sm btn-outline-gold" id="btn-switch-role" title="Cambiar de Rol para Probar Permisos">
-                <span class="icon">🔄</span> Cambiar Rol (Demo)
+              <button class="btn btn-sm btn-outline-gold" id="btn-logout" title="Cerrar sesión">
+                Cerrar sesión
               </button>
             </div>
           </div>
@@ -68,10 +72,10 @@ export class NavbarView extends BaseView {
       </header>
     `;
 
-    this._bindInternalEvents(availableUsers);
+    this._bindInternalEvents();
   }
 
-  _bindInternalEvents(availableUsers) {
+  _bindInternalEvents() {
     const container = this.getContainer();
     if (!container) return;
 
@@ -82,10 +86,10 @@ export class NavbarView extends BaseView {
       });
     });
 
-    const switchBtn = container.querySelector('#btn-switch-role');
-    if (switchBtn) {
-      switchBtn.addEventListener('click', () => {
-        if (this.onOpenRoleSwitcher) this.onOpenRoleSwitcher();
+    const logoutBtn = container.querySelector('#btn-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        if (this.onLogout) this.onLogout();
       });
     }
   }
@@ -94,7 +98,7 @@ export class NavbarView extends BaseView {
     this.onNavigate = handler;
   }
 
-  setRoleSwitcherHandler(handler) {
-    this.onOpenRoleSwitcher = handler;
+  setLogoutHandler(handler) {
+    this.onLogout = handler;
   }
 }
