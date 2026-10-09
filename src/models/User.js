@@ -51,6 +51,13 @@ export class User extends BaseEntity {
     return this.isAdminFIA();
   }
 
+  canManageCompetitionProfiles() {
+    return this.isAdminFIA();
+  }
+
+  canManageCarInspections() {
+    return this.isAdminFIA();
+  }
 
   canAcknowledgeNotifications() {
     return this.isAdminEscuderia();

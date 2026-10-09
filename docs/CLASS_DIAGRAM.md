@@ -95,6 +95,7 @@ classDiagram
         +String colorPrimario
         +Number puntosTotales
         +Number posicionCampeonato
+        +Boolean activo
         +addPoints(pts) void
     }
 
@@ -125,6 +126,14 @@ classDiagram
         +CAR_STATUS estado
     }
 
+    class InspeccionTecnica {
+        +UUID autoId
+        +Date fecha
+        +INSPECTION_TYPES tipoInspeccion
+        +INSPECTION_OUTCOMES resultado
+        +String observaciones
+    }
+
     class Puntaje {
         +UUID eventoId
         +UUID pilotoId
@@ -143,10 +152,12 @@ classDiagram
     BaseEntity <|-- Escuderia
     BaseEntity <|-- Piloto
     BaseEntity <|-- Auto
+    BaseEntity <|-- InspeccionTecnica
     BaseEntity <|-- Puntaje
 
     Escuderia "1" o-- "*" Auto : posee
     Escuderia "1" o-- "*" Piloto : contrata
+    Auto "1" o-- "*" InspeccionTecnica : registra inspecciones
     EventoDeportivo "1" <-- "*" Puntaje : tiene resultados
     Piloto "1" <-- "*" Puntaje : obtiene
 ```

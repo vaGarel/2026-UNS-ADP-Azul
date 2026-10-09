@@ -19,6 +19,22 @@ export class ScoreRepository extends BaseRepository {
     return this.find(r => r.escuderiaId === teamId);
   }
 
+  deleteByDriver(driverId) {
+    return this._deleteMatching(result => result.pilotoId === driverId);
+  }
+
+  deleteByTeam(teamId) {
+    return this._deleteMatching(result => result.escuderiaId === teamId);
+  }
+
+  _deleteMatching(predicate) {
+    const results = this.getAll();
+    const remaining = results.filter(result => !predicate(result));
+    const deletedCount = results.length - remaining.length;
+    if (deletedCount > 0) this._persist(remaining);
+    return deletedCount;
+  }
+
   getPendingAcks(teamId = null) {
     return this.find(r => {
       const matchTeam = teamId ? r.escuderiaId === teamId : true;

@@ -10,6 +10,7 @@ export const STORAGE_KEYS = {
   TEAMS: 'fia_teams',
   DRIVERS: 'fia_drivers',
   CARS: 'fia_cars',
+  CAR_INSPECTIONS: 'fia_car_inspections',
   RACE_RESULTS: 'fia_race_results',
   USERS: 'fia_users',
   CURRENT_USER: 'fia_current_user',

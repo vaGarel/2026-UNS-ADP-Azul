@@ -13,18 +13,21 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. CAPA DE PRESENTACIÓN (Views & UI Components)             │
 │    - NavbarView, CalendarView, ScoreView                    │
+│    - CompetitionManagementView                             │
 │    - ModalManager, ToastNotification, DateFormatter         │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (Eventos y llamadas)
 ┌──────────────────────────────▼──────────────────────────────┐
 │ 2. CAPA DE CONTROLADORES (MVC Controllers)                  │
 │    - CalendarController, ScoreController                    │
+│    - CompetitionManagementController                        │
 │    - AuthController, AppController                          │
 └──────────────────────────────┬──────────────────────────────┘
                                │ (Invocación de lógica de negocio)
 ┌──────────────────────────────▼──────────────────────────────┐
 │ 3. CAPA DE SERVICIOS / NEGOCIO (Domain Services)            │
 │    - CalendarService, ScoreService                          │
+│    - CompetitionProfileService, TechnicalInspectionService  │
 │    - AuthService                                            │
 │    - Estrategias de Puntuación (F1ScoringStrategy, etc.)    │
 └──────────────────────────────┬──────────────────────────────┘
@@ -33,6 +36,7 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 │ 4. CAPA DE ACCESO A DATOS / PERSISTENCIA (Repositories)     │
 │    - BaseRepository<T>, EventRepository, ScoreRepository   │
 │    - TeamRepository, DriverRepository, CarRepository        │
+│    - TechnicalInspectionRepository                          │
 │    - UserRepository                                         │
 │    - StorageService (LocalStorage + Mock Dataset 2026)      │
 └──────────────────────────────┬──────────────────────────────┘
@@ -41,13 +45,17 @@ La aplicación sigue una rigurosa arquitectura en 5 capas desacopladas:
 │ 5. CAPA DE DOMINIO / MODELOS (Domain Entities)              │
 │    - BaseEntity, User (AdminFIA, AdminEscuderia, PublicUser)│
 │    - SportEvent (TireTestEvent), Team, Driver, Car          │
-│    - RaceResult                                             │
+│    - RaceResult, TechnicalInspection                        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Autenticación de demostración
 
 `AuthService` valida el email y la contraseña de las cuentas precargadas, y conserva solo el identificador de la sesión en `localStorage`. `StorageService` migra las cuentas existentes y cierra las sesiones antiguas que se iniciaban automáticamente. El inicio de sesión en el navegador es exclusivamente demostrativo: la verificación y los permisos del cliente no constituyen una frontera de seguridad.
+
+### Gestión de perfiles e inspecciones
+
+`CompetitionProfileService` autoriza las operaciones de perfiles al personal FIA y conserva el historial al archivar equipos o pilotos. La eliminación permanente elimina solamente el perfil seleccionado y sus resultados directamente asociados. `TechnicalInspectionService` mantiene registros fechados por auto con tipo y resultado controlados; la vista permite navegar de la lista de autos a sus inspecciones y al detalle individual. Todos los roles autenticados pueden consultar; solo FIA puede modificar estos datos.
 
 ---
 

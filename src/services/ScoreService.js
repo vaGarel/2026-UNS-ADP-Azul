@@ -54,9 +54,11 @@ export class ScoreService {
 
     const driver = this.driverRepository.getById(pilotoId);
     if (!driver) throw new Error(`Piloto con ID ${pilotoId} no existe.`);
+    if (!driver.activo) throw new Error('No se pueden registrar puntajes para un piloto archivado.');
 
     const team = this.teamRepository.getById(escuderiaId);
     if (!team) throw new Error(`Escudería con ID ${escuderiaId} no existe.`);
+    if (!team.activo) throw new Error('No se pueden registrar puntajes para un equipo archivado.');
 
     // Calcular puntaje según estrategia oficial FIA
     const isFinished = estadoFinal === RACE_STATUS.FINISHED;
@@ -101,7 +103,7 @@ export class ScoreService {
     this.eventRepository.update(eventoId, { puntajesRegistrados: true });
 
     // Recalcular acumulados del campeonato
-    this._recalculateChampionshipStandings();
+    this.recalculateChampionshipStandings();
 
     this.eventEmitter.emit('scores:updated', { eventId: eventoId, result: savedResult });
     return savedResult;
@@ -129,7 +131,7 @@ export class ScoreService {
     return updated;
   }
 
-  _recalculateChampionshipStandings() {
+  recalculateChampionshipStandings() {
     const allResults = this.scoreRepository.getAll();
     const drivers = this.driverRepository.getAll();
     const teams = this.teamRepository.getAll();

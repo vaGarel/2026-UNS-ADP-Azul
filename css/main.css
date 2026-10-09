@@ -6,6 +6,7 @@
 @import './scores.css';
 @import './modals.css';
 @import './auth.css';
+@import './competition.css';
 
 /* Reset & Base Styles */
 *, *::before, *::after {

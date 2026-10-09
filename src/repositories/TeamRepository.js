@@ -7,6 +7,6 @@ export class TeamRepository extends BaseRepository {
   }
 
   getStandings() {
-    return this.getAll().sort((a, b) => b.puntosTotales - a.puntosTotales);
+    return this.find(team => team.activo).sort((a, b) => b.puntosTotales - a.puntosTotales);
   }
 }

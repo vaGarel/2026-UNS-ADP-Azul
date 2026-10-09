@@ -11,6 +11,6 @@ export class DriverRepository extends BaseRepository {
   }
 
   getStandings() {
-    return this.getAll().sort((a, b) => b.puntos - a.puntos);
+    return this.find(driver => driver.activo).sort((a, b) => b.puntos - a.puntos);
   }
 }

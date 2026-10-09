@@ -20,6 +20,7 @@ export class Team extends BaseEntity {
     puntosTotales = 0,
     posicionCampeonato = 1,
     campeonatosConstructores = 0,
+    activo = true,
     createdAt = null,
     updatedAt = null
   } = {}) {
@@ -38,6 +39,7 @@ export class Team extends BaseEntity {
     this.puntosTotales = Number(puntosTotales) || 0;
     this.posicionCampeonato = Number(posicionCampeonato) || 1;
     this.campeonatosConstructores = Number(campeonatosConstructores) || 0;
+    this.activo = Boolean(activo);
   }
 
   addPoints(points) {

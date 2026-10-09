@@ -9,6 +9,7 @@ import { TeamRepository } from '../repositories/TeamRepository.js';
 import { DriverRepository } from '../repositories/DriverRepository.js';
 import { CarRepository } from '../repositories/CarRepository.js';
 import { ScoreRepository } from '../repositories/ScoreRepository.js';
+import { TechnicalInspectionRepository } from '../repositories/TechnicalInspectionRepository.js';
 import { UserRepository } from '../repositories/UserRepository.js';
 
 // Services
@@ -16,17 +17,21 @@ import { AuthService } from '../services/AuthService.js';
 import { CalendarService } from '../services/CalendarService.js';
 import { ScoreService } from '../services/ScoreService.js';
 import { F1ScoringStrategy } from '../services/strategies/F1ScoringStrategy.js';
+import { CompetitionProfileService } from '../services/CompetitionProfileService.js';
+import { TechnicalInspectionService } from '../services/TechnicalInspectionService.js';
 
 // Views
 import { NavbarView } from '../views/NavbarView.js';
 import { LoginView } from '../views/LoginView.js';
 import { CalendarView } from '../views/CalendarView.js';
 import { ScoreView } from '../views/ScoreView.js';
+import { CompetitionManagementView } from '../views/CompetitionManagementView.js';
 
 // Controllers
 import { AuthController } from './AuthController.js';
 import { CalendarController } from './CalendarController.js';
 import { ScoreController } from './ScoreController.js';
+import { CompetitionManagementController } from './CompetitionManagementController.js';
 
 /**
  * Controlador Principal de la Aplicación (Root Orchestrator & Dependency Injection Container)
@@ -34,7 +39,7 @@ import { ScoreController } from './ScoreController.js';
  */
 export class AppController {
   constructor() {
-    this.currentSection = 'calendar'; // 'calendar' | 'scores'
+    this.currentSection = 'calendar'; // 'calendar' | 'scores' | 'competition'
     this._initializeDIContainer();
   }
 
@@ -47,6 +52,7 @@ export class AppController {
 
     // 2. Capa de Repositorios (Persistencia)
     this.userRepository = new UserRepository(this.storageService);
+    this.technicalInspectionRepository = new TechnicalInspectionRepository(this.storageService);
     this.eventRepository = new EventRepository(this.storageService);
     this.teamRepository = new TeamRepository(this.storageService);
     this.driverRepository = new DriverRepository(this.storageService);
@@ -65,12 +71,28 @@ export class AppController {
       this.eventEmitter,
       new F1ScoringStrategy()
     );
+    this.competitionProfileService = new CompetitionProfileService(
+      this.teamRepository,
+      this.driverRepository,
+      this.carRepository,
+      this.scoreRepository,
+      this.scoreService,
+      this.authService,
+      this.eventEmitter
+    );
+    this.technicalInspectionService = new TechnicalInspectionService(
+      this.technicalInspectionRepository,
+      this.carRepository,
+      this.authService,
+      this.eventEmitter
+    );
 
     // 4. Capa de Vistas
     this.navbarView = new NavbarView('navbar-container');
     this.loginView = new LoginView('main-content');
     this.calendarView = new CalendarView('main-content');
     this.scoreView = new ScoreView('main-content');
+    this.competitionManagementView = new CompetitionManagementView('main-content');
 
     // 5. Capa de Controladores Especializados (MVC)
     this.authController = new AuthController(
@@ -93,6 +115,19 @@ export class AppController {
       this.driverRepository,
       this.authService,
       this.scoreView,
+      this.modalManager,
+      this.toastNotification,
+      this.eventEmitter,
+      () => this.currentSection === 'scores'
+    );
+    this.competitionManagementController = new CompetitionManagementController(
+      this.competitionProfileService,
+      this.technicalInspectionService,
+      this.teamRepository,
+      this.driverRepository,
+      this.carRepository,
+      this.authService,
+      this.competitionManagementView,
       this.modalManager,
       this.toastNotification,
       this.eventEmitter
@@ -142,6 +177,9 @@ export class AppController {
         break;
       case 'scores':
         this.scoreController.render();
+        break;
+      case 'competition':
+        this.competitionManagementController.render();
         break;
       default:
         this.calendarController.render();

@@ -52,6 +52,12 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
    - Ingreso con email y contraseña para cuentas FIA, de escudería y de público general.
    - La sesión y los cambios de calendario/puntajes se conservan en el almacenamiento local del navegador; el usuario autenticado y su rol se muestran en la barra superior.
 
+4. **Administración de equipos, pilotos e inspecciones técnicas (US 17 y US 12):**
+   - Todos los usuarios autenticados pueden consultar perfiles, explorar la lista de autos y su equipo asociado, abrir el historial de inspecciones por auto y consultar el detalle de cada inspección.
+   - El personal FIA puede crear y editar perfiles de equipos y pilotos, archivarlos/restaurarlos o eliminarlos definitivamente. Archivar conserva el historial y excluye el perfil de clasificaciones activas y nuevas cargas de resultados.
+   - La eliminación permanente borra solo el perfil seleccionado y sus resultados directamente asociados; conserva los demás perfiles, autos, inspecciones y carreras.
+   - El personal FIA puede registrar, editar y eliminar inspecciones con fecha, tipo fijo, resultado aprobado/reprobado y observaciones. Tipos: control de peso, seguridad, reglamento técnico, chasis/aerodinámica y unidad de potencia/electricidad.
+
 ### Cuentas de prueba
 
 Todas las cuentas de demostración usan la contraseña `FIA2026Demo!`. Ingrese con el email indicado; el nombre de usuario se muestra después de iniciar sesión.
@@ -106,6 +112,7 @@ Y abrir `http://localhost:8000` en el navegador.
 ├── css/                        # Sistema de diseño y hojas de estilo
 │   ├── main.css
 │   ├── auth.css
+│   ├── competition.css
 │   ├── variables.css
 │   ├── layout.css
 │   ├── components.css
@@ -124,6 +131,7 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── Team.js
     │   ├── Driver.js
     │   ├── Car.js
+    │   ├── TechnicalInspection.js
     │   └── RaceResult.js
     ├── repositories/           # Capa de Acceso a Datos
     │   ├── BaseRepository.js
@@ -132,12 +140,15 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── TeamRepository.js
     │   ├── DriverRepository.js
     │   ├── CarRepository.js
+    │   ├── TechnicalInspectionRepository.js
     │   └── UserRepository.js
     ├── services/               # Capa de Lógica de Negocio
     │   ├── StorageService.js
     │   ├── AuthService.js
     │   ├── CalendarService.js
     │   ├── ScoreService.js
+    │   ├── CompetitionProfileService.js
+    │   ├── TechnicalInspectionService.js
     │   └── strategies/
     │       ├── IScoringStrategy.js
     │       ├── F1ScoringStrategy.js
@@ -146,13 +157,15 @@ Y abrir `http://localhost:8000` en el navegador.
     │   ├── AppController.js
     │   ├── AuthController.js
     │   ├── CalendarController.js
-    │   └── ScoreController.js
+    │   ├── ScoreController.js
+    │   └── CompetitionManagementController.js
     ├── views/                  # Capa de Vistas (MVC)
     │   ├── BaseView.js
     │   ├── LoginView.js
     │   ├── NavbarView.js
     │   ├── CalendarView.js
-    │   └── ScoreView.js
+    │   ├── ScoreView.js
+    │   └── CompetitionManagementView.js
     └── utils/                  # Utilidades transversales
         ├── EventEmitter.js
         ├── ToastNotification.js

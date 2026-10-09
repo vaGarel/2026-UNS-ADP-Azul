@@ -1,5 +1,4 @@
 import { BaseView } from './BaseView.js';
-import { USER_ROLES } from '../models/User.js';
 
 export class NavbarView extends BaseView {
   constructor(containerId = 'navbar-container') {
@@ -65,6 +64,11 @@ export class NavbarView extends BaseView {
             <li>
               <button class="nav-tab ${currentSection === 'scores' ? 'active' : ''}" data-section="scores">
                 <span class="nav-icon">🏆</span> Puntajes & Campeonato
+              </button>
+            </li>
+            <li>
+              <button class="nav-tab ${currentSection === 'competition' ? 'active' : ''}" data-section="competition">
+                <span class="nav-icon">🏎️</span> Competition
               </button>
             </li>
           </ul>

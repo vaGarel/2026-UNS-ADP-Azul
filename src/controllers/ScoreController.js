@@ -14,7 +14,8 @@ export class ScoreController {
     scoreView,
     modalManager,
     toastNotification,
-    eventEmitter
+    eventEmitter,
+    isActiveSection = () => true
   ) {
     this.scoreService = scoreService;
     this.eventRepository = eventRepository;
@@ -25,6 +26,7 @@ export class ScoreController {
     this.modalManager = modalManager;
     this.toastNotification = toastNotification;
     this.eventEmitter = eventEmitter;
+    this.isActiveSection = isActiveSection;
 
     this.currentTab = 'standings';
     this.selectedEventId = 'evt-2026-01';
@@ -49,14 +51,22 @@ export class ScoreController {
   }
 
   _subscribeToEvents() {
-    this.eventEmitter.on('scores:updated', () => this.refreshView());
-    this.eventEmitter.on('scores:acknowledged', () => this.refreshView());
-    this.eventEmitter.on('auth:userChanged', () => this.refreshView());
+    this.eventEmitter.on('scores:updated', () => {
+      if (this.isActiveSection()) this.refreshView();
+    });
+    this.eventEmitter.on('scores:acknowledged', () => {
+      if (this.isActiveSection()) this.refreshView();
+    });
+    this.eventEmitter.on('auth:userChanged', () => {
+      if (this.isActiveSection()) this.refreshView();
+    });
   }
 
   render() {
-    const drivers = this.driverRepository.getStandings();
     const teams = this.teamRepository.getStandings();
+    const activeTeamIds = new Set(teams.map(team => team.id));
+    const drivers = this.driverRepository.getStandings()
+      .filter(driver => activeTeamIds.has(driver.escuderiaId));
     const events = this.eventRepository.getAll();
     const results = this.scoreService.getAllResults();
     const currentUser = this.authService.getCurrentUser();
@@ -83,8 +93,10 @@ export class ScoreController {
     }
 
     const events = this.eventRepository.getAll();
-    const drivers = this.driverRepository.getAll();
-    const teams = this.teamRepository.getAll();
+    const teams = this.teamRepository.getStandings();
+    const activeTeamIds = new Set(teams.map(team => team.id));
+    const drivers = this.driverRepository.getStandings()
+      .filter(driver => activeTeamIds.has(driver.escuderiaId));
 
     const formHtml = `
       <form id="form-race-score" class="crud-form">
