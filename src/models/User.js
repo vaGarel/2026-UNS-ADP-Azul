@@ -62,4 +62,24 @@ export class User extends BaseEntity {
   canAcknowledgeNotifications() {
     return this.isAdminEscuderia();
   }
+
+  canManageDrivers() {
+    return false;
+  }
+
+  canCreateDriver() {
+    return false;
+  }
+
+  canManageDriverProfile(escuderiaId) {
+    return false;
+  }
+
+  canManageSanctions() {
+    return this.isAdminFIA();
+  }
+
+  canViewConfidentialTechnicalObservations() {
+    return this.isAdminFIA();
+  }
 }

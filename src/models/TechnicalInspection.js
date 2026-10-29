@@ -17,6 +17,8 @@ export class TechnicalInspection extends BaseEntity {
   constructor({
     id = null,
     autoId = '',
+    eventoId = '',
+    granPremio = '',
     fecha = '',
     tipoInspeccion = '',
     resultado = '',
@@ -26,6 +28,8 @@ export class TechnicalInspection extends BaseEntity {
   } = {}) {
     super(id, createdAt, updatedAt);
     this.autoId = autoId;
+    this.eventoId = eventoId;
+    this.granPremio = granPremio;
     this.fecha = fecha;
     this.tipoInspeccion = tipoInspeccion;
     this.resultado = resultado;

@@ -42,7 +42,9 @@ export class TechnicalInspectionService {
       fecha: data.fecha,
       tipoInspeccion: data.tipoInspeccion,
       resultado: data.resultado,
-      observaciones: data.observaciones
+      observaciones: data.observaciones,
+      eventoId: data.eventoId !== undefined ? data.eventoId : existing.eventoId,
+      granPremio: data.granPremio !== undefined ? data.granPremio : existing.granPremio
     };
     this._validate({ ...existing, ...updatedData });
     const updated = this.inspectionRepository.update(id, updatedData);

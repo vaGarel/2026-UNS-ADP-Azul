@@ -62,8 +62,8 @@ export class CompetitionProfileService {
   }
 
   createDriver(data) {
-    this._assertCanManage();
     const values = this._pickFields(data, DRIVER_FIELDS);
+    this._assertCanManageDriver(values.escuderiaId);
     this._validateDriver(values);
     const team = this.teamRepository.getById(values.escuderiaId);
     const driver = this.driverRepository.create(new Driver({
@@ -80,9 +80,12 @@ export class CompetitionProfileService {
   }
 
   updateDriver(id, data) {
-    this._assertCanManage();
     const existing = this._requireDriver(id);
+    this._assertCanManageDriver(existing.escuderiaId);
     const values = this._pickFields(data, DRIVER_FIELDS);
+    if (values.escuderiaId && values.escuderiaId !== existing.escuderiaId) {
+      this._assertCanManageDriver(values.escuderiaId);
+    }
     this._validateDriver({ ...existing, ...values }, id);
     const team = this.teamRepository.getById(values.escuderiaId || existing.escuderiaId);
     const updated = this.driverRepository.update(id, {
@@ -95,16 +98,17 @@ export class CompetitionProfileService {
   }
 
   setDriverActive(id, active) {
-    this._assertCanManage();
+    const driver = this._requireDriver(id);
+    this._assertCanManageDriver(driver.escuderiaId);
     if (typeof active !== 'boolean') throw new Error('El estado del piloto no es válido.');
-    const driver = this.driverRepository.update(id, { activo: active });
-    this.eventEmitter.emit('competition:profilesUpdated', { action: 'driver-status', driver });
-    return driver;
+    const updated = this.driverRepository.update(id, { activo: active });
+    this.eventEmitter.emit('competition:profilesUpdated', { action: 'driver-status', driver: updated });
+    return updated;
   }
 
   deleteDriver(id) {
-    this._assertCanManage();
     const driver = this._requireDriver(id);
+    this._assertCanManageDriver(driver.escuderiaId);
     this.scoreRepository.deleteByDriver(id);
     this.driverRepository.delete(id);
     this.scoreService.recalculateChampionshipStandings();
@@ -192,5 +196,22 @@ export class CompetitionProfileService {
     if (!user?.canManageCompetitionProfiles()) {
       throw new Error('Permiso denegado: solo el personal FIA puede gestionar perfiles de competición.');
     }
+  }
+
+  _assertCanManageDriver(teamId) {
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      throw new Error('Permiso denegado: usuario no autenticado.');
+    }
+    if (user.isAdminFIA()) {
+      throw new Error('Permiso denegado: el personal FIA no puede agregar ni gestionar pilotos. Esta acción corresponde exclusivamente al responsable de la escudería.');
+    }
+    if (user.isAdminEscuderia()) {
+      if (!user.escuderiaId || (teamId && !user.isAuthorizedForTeam(teamId))) {
+        throw new Error('Permiso denegado: solo puedes gestionar pilotos de tu propia escudería.');
+      }
+      return;
+    }
+    throw new Error('Permiso denegado: solo el responsable de la escudería puede gestionar pilotos.');
   }
 }

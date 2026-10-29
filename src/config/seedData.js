@@ -1155,3 +1155,92 @@ export const INITIAL_USERS = [
     activo: true
   }
 ];
+
+export const INITIAL_CAR_INSPECTIONS = [
+  {
+    id: 'insp-001',
+    autoId: 'car-sf26-16',
+    eventoId: 'evt-2026-01',
+    granPremio: 'Gran Premio de Australia 2026',
+    fecha: '2026-03-13',
+    tipoInspeccion: 'Safety',
+    resultado: 'Pass',
+    observaciones: 'Sistema Halo y célula de supervivencia verificados según estándar FIA 8860-2018.'
+  },
+  {
+    id: 'insp-002',
+    autoId: 'car-sf26-16',
+    eventoId: 'evt-2026-01',
+    granPremio: 'Gran Premio de Australia 2026',
+    fecha: '2026-03-14',
+    tipoInspeccion: 'Weight compliance',
+    resultado: 'Pass',
+    observaciones: 'Peso total en báscula: 800.5 kg (mínimo reglamentario 798 kg).'
+  },
+  {
+    id: 'insp-003',
+    autoId: 'car-rb22-01',
+    eventoId: 'evt-2026-01',
+    granPremio: 'Gran Premio de Australia 2026',
+    fecha: '2026-03-13',
+    tipoInspeccion: 'Chassis/aerodynamics',
+    resultado: 'Pass',
+    observaciones: 'Flexión de alerón delantero dentro de tolerancias de carga estática (1000 N).'
+  },
+  {
+    id: 'insp-004',
+    autoId: 'car-mcl39-04',
+    eventoId: 'evt-2026-02',
+    granPremio: 'Gran Premio de Baréin 2026',
+    fecha: '2026-03-27',
+    tipoInspeccion: 'Technical regulations',
+    resultado: 'Fail',
+    observaciones: 'Desgaste excesivo de la plancha del fondo plano (skid block) en el sector central (0.2 mm por debajo del límite reglamentario).'
+  }
+];
+
+export const INITIAL_SANCTIONS = [
+  {
+    id: 'snc-001',
+    pilotoId: 'drv-verstappen',
+    pilotoNombre: 'Max Verstappen',
+    escuderiaId: 'team-redbull',
+    escuderiaNombre: 'Oracle Red Bull Racing',
+    eventoId: 'evt-2026-01',
+    granPremio: 'Gran Premio de Australia 2026',
+    fecha: '2026-03-15',
+    motivo: 'Límites de pista reiterados en curva 4',
+    tipoSancion: '5 segundos de recargo',
+    puntosPenalizacion: 1,
+    estado: 'Aplicada'
+  },
+  {
+    id: 'snc-002',
+    pilotoId: 'drv-hamilton',
+    pilotoNombre: 'Lewis Hamilton',
+    escuderiaId: 'team-ferrari',
+    escuderiaNombre: 'Scuderia Ferrari HP',
+    eventoId: 'evt-2026-02',
+    granPremio: 'Gran Premio de Baréin 2026',
+    fecha: '2026-03-29',
+    motivo: 'Exceso de velocidad en el carril de boxes (84 km/h)',
+    tipoSancion: 'Multa económica',
+    puntosPenalizacion: 0,
+    estado: 'Aplicada'
+  },
+  {
+    id: 'snc-003',
+    pilotoId: 'drv-norris',
+    pilotoNombre: 'Lando Norris',
+    escuderiaId: 'team-mclaren',
+    escuderiaNombre: 'McLaren Formula 1 Team',
+    eventoId: 'evt-2026-03',
+    granPremio: 'Gran Premio de Arabia Saudita 2026',
+    fecha: '2026-04-12',
+    motivo: 'Maniobra defensiva irregular en frenada',
+    tipoSancion: 'Reprimenda oficial',
+    puntosPenalizacion: 1,
+    estado: 'Aplicada'
+  }
+];
+

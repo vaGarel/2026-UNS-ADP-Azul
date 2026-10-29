@@ -10,6 +10,7 @@ import { DriverRepository } from '../repositories/DriverRepository.js';
 import { CarRepository } from '../repositories/CarRepository.js';
 import { ScoreRepository } from '../repositories/ScoreRepository.js';
 import { TechnicalInspectionRepository } from '../repositories/TechnicalInspectionRepository.js';
+import { SanctionRepository } from '../repositories/SanctionRepository.js';
 import { UserRepository } from '../repositories/UserRepository.js';
 
 // Services
@@ -19,6 +20,7 @@ import { ScoreService } from '../services/ScoreService.js';
 import { F1ScoringStrategy } from '../services/strategies/F1ScoringStrategy.js';
 import { CompetitionProfileService } from '../services/CompetitionProfileService.js';
 import { TechnicalInspectionService } from '../services/TechnicalInspectionService.js';
+import { SanctionService } from '../services/SanctionService.js';
 
 // Views
 import { NavbarView } from '../views/NavbarView.js';
@@ -58,6 +60,7 @@ export class AppController {
     this.driverRepository = new DriverRepository(this.storageService);
     this.carRepository = new CarRepository(this.storageService);
     this.scoreRepository = new ScoreRepository(this.storageService);
+    this.sanctionRepository = new SanctionRepository(this.storageService);
 
     // 3. Capa de Servicios de Negocio
     this.authService = new AuthService(this.storageService, this.userRepository, this.eventEmitter);
@@ -83,6 +86,14 @@ export class AppController {
     this.technicalInspectionService = new TechnicalInspectionService(
       this.technicalInspectionRepository,
       this.carRepository,
+      this.authService,
+      this.eventEmitter
+    );
+    this.sanctionService = new SanctionService(
+      this.sanctionRepository,
+      this.driverRepository,
+      this.teamRepository,
+      this.eventRepository,
       this.authService,
       this.eventEmitter
     );
@@ -123,9 +134,11 @@ export class AppController {
     this.competitionManagementController = new CompetitionManagementController(
       this.competitionProfileService,
       this.technicalInspectionService,
+      this.sanctionService,
       this.teamRepository,
       this.driverRepository,
       this.carRepository,
+      this.eventRepository,
       this.authService,
       this.competitionManagementView,
       this.modalManager,

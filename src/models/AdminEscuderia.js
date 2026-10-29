@@ -22,4 +22,20 @@ export class AdminEscuderia extends User {
   isAuthorizedForTeam(targetTeamId) {
     return this.escuderiaId === targetTeamId;
   }
+
+  canManageDrivers() {
+    return true;
+  }
+
+  canCreateDriver() {
+    return true;
+  }
+
+  canManageDriverProfile(targetTeamId) {
+    return !targetTeamId || this.isAuthorizedForTeam(targetTeamId);
+  }
+
+  canViewConfidentialTechnicalObservations() {
+    return true;
+  }
 }
