@@ -43,6 +43,10 @@ export class User extends BaseEntity {
     return this.rol === USER_ROLES.PUBLICO;
   }
 
+  canManageUsers() {
+    return this.isAdminFIA();
+  }
+
   canManageCalendar() {
     return this.isAdminFIA();
   }

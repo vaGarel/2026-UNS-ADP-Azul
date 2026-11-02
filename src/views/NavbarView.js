@@ -23,6 +23,8 @@ export class NavbarView extends BaseView {
       roleIcon = '🏎️';
     }
 
+    const canManageUsers = typeof currentUser.canManageUsers === 'function' && currentUser.canManageUsers();
+
     container.innerHTML = `
       <header class="app-header">
         <div class="header-main-bar">
@@ -71,6 +73,13 @@ export class NavbarView extends BaseView {
                 <span class="nav-icon">🏎️</span> Competition
               </button>
             </li>
+            ${canManageUsers ? `
+            <li>
+              <button class="nav-tab ${currentSection === 'users' ? 'active' : ''}" data-section="users">
+                <span class="nav-icon">👥</span> Usuarios
+              </button>
+            </li>
+            ` : ''}
           </ul>
         </nav>
       </header>

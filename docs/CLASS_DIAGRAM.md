@@ -24,6 +24,7 @@ classDiagram
         +Boolean activo
         +canManageCalendar() Boolean
         +canManageScores() Boolean
+        +canManageUsers() Boolean
         +canAcknowledgeNotifications() Boolean
     }
 

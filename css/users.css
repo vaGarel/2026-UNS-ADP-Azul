@@ -1,0 +1,186 @@
+/* Estilos para el Módulo de Gestión de Usuarios y Accesos FIA (US 23) */
+
+/* Cuadrícula de Estadísticas de Usuarios */
+.user-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.stat-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+/* Barra de Búsqueda y Filtros de Usuarios */
+.user-filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(11, 13, 19, 0.6);
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: center;
+}
+
+.filter-group-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group-item.search-item {
+  flex: 1 1 260px;
+}
+
+.form-label-sm {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--fia-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Celdas de la Tabla de Usuarios */
+.user-table-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.user-table-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-tertiary);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-table-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.user-table-info strong {
+  font-size: 0.95rem;
+  color: #FFFFFF;
+}
+
+.user-email-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.action-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.table-row-highlight {
+  background: rgba(255, 215, 0, 0.04) !important;
+}
+
+.badge-current-user {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--fia-gold);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* Formulario Modal de Usuario */
+.form-row {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 650px) {
+  .form-row {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.custom-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--fia-gold);
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.text-gold {
+  color: var(--fia-gold) !important;
+}
+

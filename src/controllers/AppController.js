@@ -21,6 +21,7 @@ import { F1ScoringStrategy } from '../services/strategies/F1ScoringStrategy.js';
 import { CompetitionProfileService } from '../services/CompetitionProfileService.js';
 import { TechnicalInspectionService } from '../services/TechnicalInspectionService.js';
 import { SanctionService } from '../services/SanctionService.js';
+import { UserService } from '../services/UserService.js';
 
 // Views
 import { NavbarView } from '../views/NavbarView.js';
@@ -28,12 +29,14 @@ import { LoginView } from '../views/LoginView.js';
 import { CalendarView } from '../views/CalendarView.js';
 import { ScoreView } from '../views/ScoreView.js';
 import { CompetitionManagementView } from '../views/CompetitionManagementView.js';
+import { UserManagementView } from '../views/UserManagementView.js';
 
 // Controllers
 import { AuthController } from './AuthController.js';
 import { CalendarController } from './CalendarController.js';
 import { ScoreController } from './ScoreController.js';
 import { CompetitionManagementController } from './CompetitionManagementController.js';
+import { UserManagementController } from './UserManagementController.js';
 
 /**
  * Controlador Principal de la Aplicación (Root Orchestrator & Dependency Injection Container)
@@ -41,7 +44,7 @@ import { CompetitionManagementController } from './CompetitionManagementControll
  */
 export class AppController {
   constructor() {
-    this.currentSection = 'calendar'; // 'calendar' | 'scores' | 'competition'
+    this.currentSection = 'calendar'; // 'calendar' | 'scores' | 'competition' | 'users'
     this._initializeDIContainer();
   }
 
@@ -97,6 +100,12 @@ export class AppController {
       this.authService,
       this.eventEmitter
     );
+    this.userService = new UserService(
+      this.userRepository,
+      this.teamRepository,
+      this.authService,
+      this.eventEmitter
+    );
 
     // 4. Capa de Vistas
     this.navbarView = new NavbarView('navbar-container');
@@ -104,6 +113,7 @@ export class AppController {
     this.calendarView = new CalendarView('main-content');
     this.scoreView = new ScoreView('main-content');
     this.competitionManagementView = new CompetitionManagementView('main-content');
+    this.userManagementView = new UserManagementView('main-content');
 
     // 5. Capa de Controladores Especializados (MVC)
     this.authController = new AuthController(
@@ -141,6 +151,15 @@ export class AppController {
       this.eventRepository,
       this.authService,
       this.competitionManagementView,
+      this.modalManager,
+      this.toastNotification,
+      this.eventEmitter
+    );
+    this.userManagementController = new UserManagementController(
+      this.userService,
+      this.teamRepository,
+      this.authService,
+      this.userManagementView,
       this.modalManager,
       this.toastNotification,
       this.eventEmitter
@@ -193,6 +212,14 @@ export class AppController {
         break;
       case 'competition':
         this.competitionManagementController.render();
+        break;
+      case 'users':
+        if (currentUser.canManageUsers()) {
+          this.userManagementController.render();
+        } else {
+          this.toastNotification.error('Acceso denegado', 'Solo el personal administrativo de la FIA puede gestionar usuarios.');
+          this.navigateTo('calendar');
+        }
         break;
       default:
         this.calendarController.render();

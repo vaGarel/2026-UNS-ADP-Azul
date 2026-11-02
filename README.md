@@ -58,6 +58,12 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
    - La eliminación permanente borra solo el perfil seleccionado y sus resultados directamente asociados; conserva los demás perfiles, autos, inspecciones y carreras.
    - El personal FIA puede registrar, editar y eliminar inspecciones con fecha, tipo fijo, resultado aprobado/reprobado y observaciones. Tipos: control de peso, seguridad, reglamento técnico, chasis/aerodinámica y unidad de potencia/electricidad.
 
+5. **Creación y Administración de Usuarios (US 23 - CRUD Completo):**
+   - El personal administrativo de la FIA puede crear, modificar datos y eliminar cuentas de responsables de escuderías y personal FIA.
+   - Creación restringida exclusivamente a perfiles autorizados (`ADMIN_FIA` y `ADMIN_ESCUDERIA`), bloqueando perfiles no autorizados.
+   - Los usuarios creados o actualizados pueden autenticarse inmediatamente con sus credenciales y acceder a sus paneles y permisos correspondientes.
+   - Validación completa de campos obligatorios, formato de email, longitud de contraseña (mínimo 6 caracteres), unicidad de nombre de usuario y correo, y asignación obligatoria de escudería para administradores de equipo.
+
 ### Cuentas de prueba
 
 Todas las cuentas de demostración usan la contraseña `FIA2026Demo!`. Ingrese con el email indicado; el nombre de usuario se muestra después de iniciar sesión.

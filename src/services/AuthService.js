@@ -1,4 +1,5 @@
 import { STORAGE_KEYS } from '../config/constants.js';
+import { hashCredentials } from '../utils/crypto.js';
 
 /**
  * Servicio de Autenticación y Gestión de Sesión Activa
@@ -32,17 +33,7 @@ export class AuthService {
     const passwordHash = this.userRepository.getPasswordHashByEmail(normalizedEmail);
     if (!user?.activo || !passwordHash) return null;
 
-    if (!globalThis.crypto?.subtle) {
-      throw new Error('Web Crypto API is required for demo authentication.');
-    }
-
-    const hashBuffer = await globalThis.crypto.subtle.digest(
-      'SHA-256',
-      new TextEncoder().encode(`${normalizedEmail}:${password}`)
-    );
-    const submittedHash = Array.from(new Uint8Array(hashBuffer), byte =>
-      byte.toString(16).padStart(2, '0')
-    ).join('');
+    const submittedHash = await hashCredentials(normalizedEmail, password);
     if (submittedHash !== passwordHash) return null;
 
     this.currentUser = user;
