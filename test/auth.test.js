@@ -5,6 +5,8 @@ import { INITIAL_USERS } from '../src/config/seedData.js';
 import { UserRepository } from '../src/repositories/UserRepository.js';
 import { AuthService } from '../src/services/AuthService.js';
 import { StorageService } from '../src/services/StorageService.js';
+import { AuthController } from '../src/controllers/AuthController.js';
+import { LoginView } from '../src/views/LoginView.js';
 import { USER_ROLES } from '../src/models/User.js';
 
 const DEMO_PASSWORD = 'FIA2026Demo!';
@@ -82,6 +84,70 @@ describe('AuthService', () => {
     expect(restoredAuthService.getCurrentUser()).toBeNull();
     expect(storage.getItem(STORAGE_KEYS.CURRENT_USER)).toBeNull();
     expect(eventEmitter.emit).toHaveBeenLastCalledWith('auth:userChanged', null);
+  });
+
+  it('permite el acceso directo sin credenciales con rol de Público General (loginAsGuest)', () => {
+    const user = authService.loginAsGuest();
+
+    expect(user).toBeDefined();
+    expect(user.rol).toBe(USER_ROLES.PUBLICO);
+    expect(user.isPublico()).toBe(true);
+    expect(user.isAdminFIA()).toBe(false);
+    expect(user.isAdminEscuderia()).toBe(false);
+    expect(user.canManageCalendar()).toBe(false);
+    expect(user.canManageScores()).toBe(false);
+    expect(authService.getCurrentUser()).toBe(user);
+    expect(storage.getItem(STORAGE_KEYS.CURRENT_USER)).toEqual({ id: user.id });
+    expect(eventEmitter.emit).toHaveBeenCalledWith('auth:userChanged', user);
+  });
+});
+
+describe('LoginView y AuthController acceso de público general', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('renderiza el botón de acceso sin credenciales para público general', () => {
+    const fakeContainer = {
+      innerHTML: '',
+      querySelectorAll: vi.fn(() => []),
+      querySelector: vi.fn(() => ({ addEventListener: vi.fn() }))
+    };
+    vi.stubGlobal('document', {
+      getElementById: vi.fn(() => fakeContainer)
+    });
+
+    const loginView = new LoginView('main-content');
+    loginView.render();
+
+    expect(fakeContainer.innerHTML).toContain('id="btn-guest-login"');
+    expect(fakeContainer.innerHTML).toContain('Ingresar sin iniciar sesión (Público General)');
+  });
+
+  it('AuthController ejecuta loginAsGuest y notifica al usuario', () => {
+    const authServiceMock = {
+      loginAsGuest: vi.fn(() => ({ id: 'guest-1', nombre: 'Aficionado F1' }))
+    };
+    const loginViewMock = {
+      render: vi.fn(),
+      setSubmitHandler: vi.fn(),
+      setGuestHandler: vi.fn(),
+      setError: vi.fn()
+    };
+    const toastMock = {
+      info: vi.fn(),
+      success: vi.fn(),
+      error: vi.fn()
+    };
+
+    const controller = new AuthController(authServiceMock, loginViewMock, toastMock);
+    controller.loginAsGuest();
+
+    expect(authServiceMock.loginAsGuest).toHaveBeenCalled();
+    expect(toastMock.info).toHaveBeenCalledWith(
+      expect.stringContaining('Acceso Público'),
+      expect.stringContaining('Aficionado F1')
+    );
   });
 });
 

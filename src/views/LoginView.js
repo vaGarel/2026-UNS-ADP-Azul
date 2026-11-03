@@ -26,7 +26,16 @@ export class LoginView extends BaseView {
             <p id="login-error" class="login-error" role="alert" aria-live="polite"></p>
             <button class="btn btn-primary w-100" type="submit">Ingresar</button>
           </form>
-          <p class="login-demo-note">Demo: consulte en el README las cuentas de prueba.</p>
+
+          <div class="login-divider">
+            <span>o ingresar como invitado</span>
+          </div>
+
+          <button id="btn-guest-login" type="button" class="btn btn-secondary w-100 btn-guest-access">
+            🌐 Ingresar sin iniciar sesión (Público General)
+          </button>
+
+          <p class="login-demo-note">Demo: consulte en el README las cuentas de prueba con roles administrativos.</p>
         </div>
       </section>
     `;
@@ -38,6 +47,13 @@ export class LoginView extends BaseView {
       const password = form.elements.namedItem('password').value;
       if (this.onSubmit) void this.onSubmit(email, password);
     });
+
+    const guestBtn = container.querySelector('#btn-guest-login');
+    if (guestBtn) {
+      guestBtn.addEventListener('click', () => {
+        if (this.onGuestLogin) this.onGuestLogin();
+      });
+    }
   }
 
   setError(message) {
@@ -47,5 +63,9 @@ export class LoginView extends BaseView {
 
   setSubmitHandler(handler) {
     this.onSubmit = handler;
+  }
+
+  setGuestHandler(handler) {
+    this.onGuestLogin = handler;
   }
 }

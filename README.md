@@ -50,6 +50,7 @@ Esta entrega corresponde a la **Demo CRUD del Sprint 0**, implementada íntegram
 
 3. **Autenticación por roles:**
    - Ingreso con email y contraseña para cuentas FIA, de escudería y de público general.
+   - Acceso directo sin credenciales para público general ("Ingresar sin iniciar sesión") con permisos de solo lectura.
    - La sesión y los cambios de calendario/puntajes se conservan en el almacenamiento local del navegador; el usuario autenticado y su rol se muestran en la barra superior.
 
 4. **Administración de equipos, pilotos e inspecciones técnicas (US 17 y US 12):**

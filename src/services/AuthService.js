@@ -1,5 +1,7 @@
 import { STORAGE_KEYS } from '../config/constants.js';
 import { hashCredentials } from '../utils/crypto.js';
+import { USER_ROLES } from '../models/User.js';
+import { PublicUser } from '../models/PublicUser.js';
 
 /**
  * Servicio de Autenticación y Gestión de Sesión Activa
@@ -38,6 +40,27 @@ export class AuthService {
 
     this.currentUser = user;
     this.storageService.setItem(STORAGE_KEYS.CURRENT_USER, { id: user.id });
+    this.eventEmitter.emit('auth:userChanged', this.currentUser);
+    return this.currentUser;
+  }
+
+  /**
+   * Permite el ingreso inmediato sin credenciales con rol de Público General
+   */
+  loginAsGuest() {
+    let publicUser = this.userRepository.getByRole(USER_ROLES.PUBLICO)?.[0];
+    if (!publicUser || !publicUser.activo) {
+      publicUser = new PublicUser({
+        id: 'usr-public-fan',
+        nombre: 'Público General / Aficionado',
+        username: 'f1_fan',
+        email: 'fan.motorsport@grandprix.com',
+        activo: true
+      });
+    }
+
+    this.currentUser = publicUser;
+    this.storageService.setItem(STORAGE_KEYS.CURRENT_USER, { id: publicUser.id });
     this.eventEmitter.emit('auth:userChanged', this.currentUser);
     return this.currentUser;
   }

@@ -172,6 +172,7 @@ export class AppController {
     this.navbarView.setNavigationHandler((section) => this.navigateTo(section));
     this.navbarView.setLogoutHandler(() => this.authController.logout());
     this.loginView.setSubmitHandler((email, password) => this.authController.login(email, password));
+    this.loginView.setGuestHandler(() => this.authController.loginAsGuest());
 
     this.eventEmitter.on('auth:userChanged', () => {
       this.render();
