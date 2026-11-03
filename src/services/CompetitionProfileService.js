@@ -204,7 +204,7 @@ export class CompetitionProfileService {
       throw new Error('Permiso denegado: usuario no autenticado.');
     }
     if (user.isAdminFIA()) {
-      throw new Error('Permiso denegado: el personal FIA no puede agregar ni gestionar pilotos. Esta acción corresponde exclusivamente al responsable de la escudería.');
+      return; // El administrador de la FIA tiene permisos globales para gestionar y agregar pilotos a cualquier escudería
     }
     if (user.isAdminEscuderia()) {
       if (!user.escuderiaId || (teamId && !user.isAuthorizedForTeam(teamId))) {
@@ -212,6 +212,6 @@ export class CompetitionProfileService {
       }
       return;
     }
-    throw new Error('Permiso denegado: solo el responsable de la escudería puede gestionar pilotos.');
+    throw new Error('Permiso denegado: solo el personal FIA y el responsable de la escudería pueden gestionar pilotos.');
   }
 }

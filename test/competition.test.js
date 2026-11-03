@@ -395,29 +395,32 @@ describe('competition profile and car inspection management', () => {
       })).toThrow('Permiso denegado');
     });
 
-    it('strictly forbids FIA admin from adding or modifying drivers', () => {
+    it('allows FIA admin to add and modify drivers for teams', () => {
       authService.getCurrentUser.mockReturnValue(new AdminFIA({ id: 'fia-director' }));
 
-      // FIA cannot create driver
-      expect(() => profileService.createDriver({
+      // FIA can create driver for an escuderia
+      const created = profileService.createDriver({
         nombre: 'FIA Created',
         apellido: 'Driver',
         numero: 11,
         escuderiaId: 'team-1'
-      })).toThrow('el personal FIA no puede agregar ni gestionar pilotos');
+      });
+      expect(created).toBeDefined();
+      expect(created.nombre).toBe('FIA Created');
+      expect(created.escuderiaId).toBe('team-1');
 
-      // FIA cannot update driver
-      expect(() => profileService.updateDriver('driver-1', {
+      // FIA can update driver
+      const updated = profileService.updateDriver(created.id, {
         nombre: 'FIA Mod'
-      })).toThrow('el personal FIA no puede agregar ni gestionar pilotos');
+      });
+      expect(updated.nombre).toBe('FIA Mod');
 
-      // FIA cannot archive driver
-      expect(() => profileService.setDriverActive('driver-1', false))
-        .toThrow('el personal FIA no puede agregar ni gestionar pilotos');
+      // FIA can archive driver
+      const archived = profileService.setDriverActive(created.id, false);
+      expect(archived.activo).toBe(false);
 
-      // FIA cannot delete driver
-      expect(() => profileService.deleteDriver('driver-1'))
-        .toThrow('el personal FIA no puede agregar ni gestionar pilotos');
+      // FIA can delete driver
+      expect(profileService.deleteDriver(created.id)).toBeDefined();
     });
   });
 
@@ -568,9 +571,9 @@ describe('competition profile and car inspection management', () => {
       expect(fia.canManageSanctions()).toBe(true);
       expect(fia.canViewConfidentialTechnicalObservations()).toBe(true);
       // Restricción: la FIA NO puede crear ni gestionar pilotos
-      expect(fia.canManageDrivers()).toBe(false);
-      expect(fia.canCreateDriver()).toBe(false);
-      expect(fia.canManageDriverProfile('team-1')).toBe(false);
+      expect(fia.canManageDrivers()).toBe(true);
+      expect(fia.canCreateDriver()).toBe(true);
+      expect(fia.canManageDriverProfile('team-1')).toBe(true);
     });
 
     it('verifica los permisos y restricciones del Responsable de Escudería', () => {
@@ -812,7 +815,7 @@ describe('competition profile and car inspection management', () => {
       expect(fakeContainer.innerHTML).not.toContain('+ Agregar piloto');
     });
 
-    it('para cuentas de Admin FIA NO renderiza la columna Acciones, NO muestra "Solo lectura" ni "+ Agregar piloto"', () => {
+    it('para cuentas de Admin FIA SÍ renderiza la columna Acciones y botón "+ Agregar piloto"', () => {
       const fiaUser = new AdminFIA({ id: 'fia-1', nombre: 'FIA Comisario' });
       view.render({
         teams: teams.getAll(),
@@ -823,9 +826,9 @@ describe('competition profile and car inspection management', () => {
         currentUser: fiaUser
       });
 
-      expect(fakeContainer.innerHTML).not.toContain('<th>Acciones</th>');
+      expect(fakeContainer.innerHTML).toContain('<th>Acciones</th>');
       expect(fakeContainer.innerHTML).not.toContain('Solo lectura');
-      expect(fakeContainer.innerHTML).not.toContain('+ Agregar piloto');
+      expect(fakeContainer.innerHTML).toContain('+ Agregar piloto');
     });
 
     it('para Admin Escudería SÍ renderiza columna Acciones y botón para su escudería, sin "Solo lectura" para rivales', () => {

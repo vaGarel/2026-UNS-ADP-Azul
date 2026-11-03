@@ -87,7 +87,7 @@ export class CompetitionManagementView extends BaseView {
 
   _renderDrivers(drivers, teams, currentUser) {
     const teamById = new Map(teams.map(team => [team.id, team]));
-    const canAddDriver = currentUser.isAdminEscuderia();
+    const canAddDriver = currentUser.isAdminEscuderia() || currentUser.isAdminFIA();
 
     let filteredDrivers = drivers;
     if (this.selectedTeamFilter !== 'all') {
@@ -111,7 +111,7 @@ export class CompetitionManagementView extends BaseView {
                 </option>
               `).join('')}
             </select>
-            ${canAddDriver ? '<button class="btn btn-primary" data-create-profile="driver">+ Agregar piloto (Escudería)</button>' : ''}
+            ${canAddDriver ? `<button class="btn btn-primary" data-create-profile="driver">+ Agregar piloto${currentUser.isAdminEscuderia() ? ' (Escudería)' : ''}</button>` : ''}
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export class CompetitionManagementView extends BaseView {
             </thead>
             <tbody>
               ${filteredDrivers.length ? filteredDrivers.map(driver => {
-                const canManageThisDriver = currentUser.isAdminEscuderia() && driver.escuderiaId === currentUser.escuderiaId;
+                const canManageThisDriver = currentUser.isAdminFIA() || (currentUser.isAdminEscuderia() && driver.escuderiaId === currentUser.escuderiaId);
                 const isTitular = driver.isTitular ? driver.isTitular() : driver.rol === 'Piloto Titular';
 
                 return `

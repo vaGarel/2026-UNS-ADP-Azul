@@ -32,6 +32,9 @@ classDiagram
         +String cargo
         +String departamento
         +String licenciaFIA
+        +canManageDrivers() Boolean
+        +canCreateDriver() Boolean
+        +canManageDriverProfile(teamId) Boolean
     }
 
     class AdminEscuderia {

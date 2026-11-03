@@ -80,8 +80,8 @@ export class CompetitionManagementController {
     const profileType = isTeam ? 'equipo' : 'piloto';
 
     const currentUser = this.authService.getCurrentUser();
-    if (!isTeam && !currentUser?.isAdminEscuderia?.()) {
-      this.toastNotification.error('Permiso denegado', 'El personal FIA no puede registrar ni modificar pilotos. Esta acción corresponde exclusivamente al responsable de la escudería.');
+    if (!isTeam && !currentUser?.isAdminEscuderia?.() && !currentUser?.isAdminFIA?.()) {
+      this.toastNotification.error('Permiso denegado', 'No tiene permisos para registrar ni modificar pilotos.');
       return;
     }
 

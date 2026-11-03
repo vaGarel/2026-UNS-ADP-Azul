@@ -18,4 +18,16 @@ export class AdminFIA extends User {
   getRoleLabel() {
     return 'Administrador FIA';
   }
+
+  canManageDrivers() {
+    return true;
+  }
+
+  canCreateDriver() {
+    return true;
+  }
+
+  canManageDriverProfile(targetTeamId) {
+    return true;
+  }
 }
